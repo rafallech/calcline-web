@@ -16,3 +16,9 @@ Każdy kalkulator ma mieć testy jednostkowe.
 Nie edytuj plików w reference.
 Implementuj jeden kalkulator naraz.
 Po zmianach podaj listę zmienionych plików i komendy testowe.
+W kalkulatorze Single Stub Matching Circuit nie używamy parametru Z1. Model zakłada, że impedancja stuba jest równa impedancji linii głównej Z0. Nie dodawaj pola Z1 bez osobnej decyzji projektowej.
+Zasoby graficzne
+Oryginalne pliki z reference/aia-unpacked/assets służą tylko jako źródło.
+Pliki używane przez UI kopiuj do public/icons/calculators.
+Nie importuj grafik bezpośrednio z katalogu reference.
+Każda ikona kalkulatora ma mieć opis alt.

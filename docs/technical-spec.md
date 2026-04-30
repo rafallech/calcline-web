@@ -24,18 +24,7 @@ Nie kopiować interfejsu 1:1. Zachować logikę obliczeń, ale zaprojektować no
 Plik źródłowy:
 CalcLine2024.aia
 
-Projekt App Inventor zawiera:
-
-9 ekranów:
-Screen1,
-Screen_About,
-Screen_RectWaveguide,
-Screen_Microstrip2,
-Screen_Impedance,
-Screen_Impedance2,
-Screen_VSWR,
-Screen_Matching,
-Screen_Matching2.
+Projekt App Inventor zawiera 9 ekranów aplikacji źródłowej.
 
 28 grafik i ikon w katalogu assets.
 
@@ -224,8 +213,8 @@ Karta: Microstrip Line
 Karta: Load Impedance Calculation
 Karta: Impedance Transformation
 Karta: VSWR Calculation
-Karta: Impedance Matching, Single Stub
-Karta: Impedance Matching, L-section Network
+Karta: Single Stub Matching Circuit
+Karta: L-section Matching Network
 Link: About
 
 Wersja webowa:
@@ -237,7 +226,7 @@ Dodać przełącznik trybu Student/Inżynier.
 
 8. Ekran About
 
-Odpowiednik: Screen_About
+Nazwa użytkowa: About
 
 Dane z AIA:
 
@@ -255,7 +244,7 @@ Dodać link do dokumentacji wzorów.
 
 9. Kalkulator 1: Rectangular Waveguide
 
-Odpowiednik: Screen_RectWaveguide
+Nazwa użytkowa: Rectangular Waveguide
 
 9.1. Wejścia
 
@@ -323,7 +312,7 @@ fc13 = 44.775 GHz
 
 10. Kalkulator 2: Microstrip Line
 
-Odpowiednik: Screen_Microstrip2
+Nazwa użytkowa: Microstrip Line
 
 10.1. Tryby
 
@@ -421,7 +410,7 @@ lambda około 100.548 mm
 
 11. Kalkulator 3: Load Impedance Calculation
 
-Odpowiednik: Screen_Impedance
+Nazwa użytkowa: Load Impedance Calculation
 
 11.1. Wejścia
 
@@ -476,7 +465,7 @@ Dodać pokazanie położenia na wykresie linii albo na wykresie Smitha.
 
 12. Kalkulator 4: Impedance Transformation
 
-Odpowiednik: Screen_Impedance2
+Nazwa użytkowa: Impedance Transformation
 
 12.1. Wejścia
 
@@ -520,7 +509,7 @@ Dodać wykres zmiany impedancji wzdłuż linii.
 
 13. Kalkulator 5: VSWR Calculation
 
-Odpowiednik: Screen_VSWR
+Nazwa użytkowa: VSWR Calculation
 
 13.1. Wejścia
 
@@ -596,17 +585,15 @@ Dodać wykres Smitha jako funkcję rozszerzoną.
 
 14. Kalkulator 6: Single Stub Matching Circuit
 
-Odpowiednik: Screen_Matching
+Nazwa użytkowa: Single Stub Matching Circuit
 
 14.1. Wejścia
 
 R_L, domyślnie 50 Ohm
 X_L, domyślnie 50 Ohm
 Z0, impedancja linii, domyślnie 50 Ohm
-Z1, impedancja stuba, domyślnie 50 Ohm
 
-Uwaga:
-W AIA jest pole Z1, ale bloki obliczeniowe widoczne w kliknięciach używają głównie Z0. Przy migracji sprawdzić, czy Z1 ma zostać włączone do wzorów długości stuba. Jeżeli aplikacja ma obsługiwać stub o impedancji innej niż linia główna, Z1 musi wejść do wzorów.
+Model zakłada, że impedancja stuba jest równa impedancji linii głównej Z0. Nie używać parametru Z1 bez osobnej decyzji projektowej.
 
 14.2. Konfiguracje
 
@@ -673,7 +660,6 @@ Dla stuba równoległego AIA używa bezpośrednio Par_t1(R_L, X_L, Z0) i Par_t2(
 
 R_L >= 0
 Z0 > 0
-Z1 > 0, jeżeli zostanie użyte
 obsługa R_L = 0 bez sztucznego dodawania 0.0001, jeśli da się zapisać stabilniej numerycznie
 
 14.7. Ulepszenie webowe
@@ -681,11 +667,10 @@ obsługa R_L = 0 bez sztucznego dodawania 0.0001, jeśli da się zapisać stabil
 Dodać wizualny schemat dla każdej konfiguracji.
 Dodać wybór: wynik w lambda, stopniach albo mm po podaniu częstotliwości i eps_eff.
 Dodać komentarz, które rozwiązanie ma krótszy stub.
-Dodać wariant z Z1 różnym od Z0.
 
 15. Kalkulator 7: L-section Matching Network
 
-Odpowiednik: Screen_Matching2
+Nazwa użytkowa: L-section Matching Network
 
 15.1. Wejścia
 
@@ -934,7 +919,7 @@ Zaimplementuj VSWR Calculation jako konwerter między Gamma, z, y, Z, Y i VSWR. 
 
 Zadanie 7
 
-Zaimplementuj Single Stub Matching Circuit. Zadbaj o osobne funkcje Par_t1, Par_t2, Val_d i Par_BX. Sprawdź, czy Z1 ma wpływać na długość stuba. Jeżeli nie ma pewności, zostaw TODO i testy dla Z1 = Z0.
+Zaimplementuj Single Stub Matching Circuit. Zadbaj o osobne funkcje Par_t1, Par_t2, Val_d i Par_BX. Model zakłada impedancję stuba równą Z0 i nie używa parametru Z1.
 
 Zadanie 8
 
@@ -950,8 +935,8 @@ Dodaj PWA, manifest, ikony, działanie offline i zapis ostatnich danych formular
 
 22. Ryzyka i decyzje do podjęcia
 
-23. Z1 w kalkulatorze Single Stub
-    W AIA pole istnieje, ale logika widoczna w blokach używa Z0. Trzeba zdecydować, czy nowa wersja ma obsługiwać Z1 różne od Z0.
+23. Impedancja stuba w kalkulatorze Single Stub
+    Model zakłada, że impedancja stuba jest równa impedancji linii głównej Z0. Nie dodawać pola Z1 bez osobnej decyzji projektowej.
 
 24. VSWR, część urojona Gamma
     W AIA wygląda na użycie cos zamiast sin. Trzeba potraktować to jako błąd i poprawić w nowej wersji, chyba że porównanie z działającą aplikacją pokaże inaczej.

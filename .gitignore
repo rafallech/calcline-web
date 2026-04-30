@@ -20,6 +20,9 @@
 # production
 /build
 
+# source reference archive, not required at runtime
+/reference/
+
 # misc
 .DS_Store
 *.pem

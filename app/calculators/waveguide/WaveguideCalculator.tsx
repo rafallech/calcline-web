@@ -16,6 +16,7 @@ import {
   type WaveguideCalculation,
 } from "@/lib/calculators/waveguide";
 import type { CalculatorInfo } from "@/lib/calculators";
+import { waveguidePresets } from "@/lib/data/presets";
 import { formatNumber } from "@/lib/math/format";
 import { formatResultsText } from "@/lib/resultText";
 
@@ -24,6 +25,7 @@ type WaveguideCalculatorProps = {
 };
 
 type WaveguideFormState = {
+  presetId: string;
   aMm: string;
   bMm: string;
   epsR: string;
@@ -31,12 +33,23 @@ type WaveguideFormState = {
   n: string;
 };
 
+const CUSTOM_PRESET_ID = "custom";
+const WR90_PRESET_ID = "wr-90";
 const defaultFormState: WaveguideFormState = {
+  presetId: CUSTOM_PRESET_ID,
   aMm: defaultNumber(calculatorDefaults.waveguide.aMm),
   bMm: defaultNumber(calculatorDefaults.waveguide.bMm),
   epsR: defaultNumber(calculatorDefaults.waveguide.epsR),
   m: defaultNumber(calculatorDefaults.waveguide.m),
   n: defaultNumber(calculatorDefaults.waveguide.n),
+};
+const exampleFormState: WaveguideFormState = {
+  presetId: WR90_PRESET_ID,
+  aMm: "22.86",
+  bMm: "10.16",
+  epsR: "1",
+  m: "1",
+  n: "0",
 };
 
 export function WaveguideCalculator({ calculator }: WaveguideCalculatorProps) {
@@ -64,12 +77,43 @@ export function WaveguideCalculator({ calculator }: WaveguideCalculatorProps) {
   function updateField(field: keyof WaveguideFormState, value: string) {
     setForm((current) => ({
       ...current,
+      presetId:
+        field === "aMm" || field === "bMm"
+          ? CUSTOM_PRESET_ID
+          : current.presetId,
       [field]: value,
+    }));
+  }
+
+  function updateWaveguidePreset(presetId: string) {
+    if (presetId === CUSTOM_PRESET_ID) {
+      setForm((current) => ({
+        ...current,
+        presetId,
+      }));
+      return;
+    }
+
+    const preset = waveguidePresets.find((item) => item.id === presetId);
+
+    if (!preset) {
+      return;
+    }
+
+    setForm((current) => ({
+      ...current,
+      presetId,
+      aMm: defaultNumber(preset.values.aMm),
+      bMm: defaultNumber(preset.values.bMm),
     }));
   }
 
   function resetForm() {
     resetStoredForm();
+  }
+
+  function loadExample() {
+    setForm(exampleFormState);
   }
 
   return (
@@ -81,6 +125,8 @@ export function WaveguideCalculator({ calculator }: WaveguideCalculatorProps) {
           form={form}
           calculation={calculation}
           onChange={updateField}
+          onPresetChange={updateWaveguidePreset}
+          onLoadExample={loadExample}
           onReset={resetForm}
         />
       }
@@ -101,6 +147,8 @@ type WaveguideInputPanelProps = {
   form: WaveguideFormState;
   calculation: WaveguideCalculation;
   onChange: (field: keyof WaveguideFormState, value: string) => void;
+  onPresetChange: (presetId: string) => void;
+  onLoadExample: () => void;
   onReset: () => void;
 };
 
@@ -108,8 +156,15 @@ function WaveguideInputPanel({
   form,
   calculation,
   onChange,
+  onPresetChange,
+  onLoadExample,
   onReset,
 }: WaveguideInputPanelProps) {
+  const selectedPreset = waveguidePresets.find(
+    (preset) => preset.id === form.presetId,
+  );
+  const selectedPresetId = selectedPreset?.id ?? CUSTOM_PRESET_ID;
+
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-4">
@@ -120,7 +175,46 @@ function WaveguideInputPanel({
             broad wall a and n along the narrow wall b.
           </p>
         </div>
-        <ResetButton onClick={onReset} />
+        <div className="flex shrink-0 flex-wrap justify-end gap-2">
+          <button
+            type="button"
+            onClick={onLoadExample}
+            className="inline-flex min-h-9 items-center justify-center rounded-md border border-cyan-700 bg-cyan-50 px-3 text-sm font-medium text-cyan-900 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-700/20"
+          >
+            Load example
+          </button>
+          <ResetButton onClick={onReset} />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label
+          htmlFor="waveguide-preset"
+          className="block text-sm font-medium text-slate-800"
+        >
+          Waveguide preset
+        </label>
+        <select
+          id="waveguide-preset"
+          value={selectedPresetId}
+          onChange={(event) => onPresetChange(event.target.value)}
+          className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100"
+        >
+          <option value={CUSTOM_PRESET_ID}>Custom</option>
+          {waveguidePresets.map((preset) => (
+            <option key={preset.id} value={preset.id}>
+              {preset.label}
+            </option>
+          ))}
+        </select>
+        <p className="text-sm leading-6 text-slate-600">
+          {selectedPreset
+            ? `${selectedPreset.description} a = ${formatNumber(
+                selectedPreset.values.aMm,
+                3,
+              )} mm, b = ${formatNumber(selectedPreset.values.bMm, 3)} mm.`
+            : "Custom dimensions: set a and b manually."}
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

@@ -16,6 +16,7 @@ import {
   type MicrostripCalculation,
 } from "@/lib/calculators/microstrip";
 import type { CalculatorInfo } from "@/lib/calculators";
+import { materialPresets } from "@/lib/data/presets";
 import { formatNumber } from "@/lib/math/format";
 import { formatResultsText } from "@/lib/resultText";
 
@@ -26,6 +27,7 @@ type MicrostripCalculatorProps = {
 type MicrostripMode = "analysis" | "synthesis";
 
 type MicrostripFormState = {
+  presetId: string;
   mode: MicrostripMode;
   hMm: string;
   wMm: string;
@@ -34,7 +36,10 @@ type MicrostripFormState = {
   fGHz: string;
 };
 
+const CUSTOM_PRESET_ID = "custom";
+const RO4003C_PRESET_ID = "rogers-ro4003c-design";
 const defaultFormState: MicrostripFormState = {
+  presetId: CUSTOM_PRESET_ID,
   mode: calculatorDefaults.microstrip.mode,
   hMm: defaultNumber(calculatorDefaults.microstrip.hMm),
   wMm: defaultNumber(calculatorDefaults.microstrip.wMm),
@@ -80,6 +85,7 @@ export function MicrostripCalculator({
   function updateField(field: keyof MicrostripFormState, value: string) {
     setForm((current) => ({
       ...current,
+      presetId: field === "epsR" ? CUSTOM_PRESET_ID : current.presetId,
       [field]: value,
     }));
   }
@@ -91,8 +97,42 @@ export function MicrostripCalculator({
     }));
   }
 
+  function updateMaterialPreset(presetId: string) {
+    if (presetId === CUSTOM_PRESET_ID) {
+      setForm((current) => ({
+        ...current,
+        presetId,
+      }));
+      return;
+    }
+
+    const preset = materialPresets.find((item) => item.id === presetId);
+
+    if (!preset) {
+      return;
+    }
+
+    setForm((current) => ({
+      ...current,
+      presetId,
+      epsR: defaultNumber(preset.values.epsR),
+    }));
+  }
+
   function resetForm() {
     resetStoredForm();
+  }
+
+  function loadExample() {
+    setForm((current) => ({
+      ...current,
+      presetId: RO4003C_PRESET_ID,
+      mode: "synthesis",
+      hMm: "1.524",
+      z0Ohm: "50",
+      epsR: "3.55",
+      fGHz: "2.4",
+    }));
   }
 
   return (
@@ -105,6 +145,8 @@ export function MicrostripCalculator({
           calculation={calculation}
           onChange={updateField}
           onModeChange={updateMode}
+          onPresetChange={updateMaterialPreset}
+          onLoadExample={loadExample}
           onReset={resetForm}
         />
       }
@@ -127,6 +169,8 @@ type MicrostripInputPanelProps = {
   calculation: MicrostripCalculation;
   onChange: (field: keyof MicrostripFormState, value: string) => void;
   onModeChange: (mode: MicrostripMode) => void;
+  onPresetChange: (presetId: string) => void;
+  onLoadExample: () => void;
   onReset: () => void;
 };
 
@@ -135,8 +179,15 @@ function MicrostripInputPanel({
   calculation,
   onChange,
   onModeChange,
+  onPresetChange,
+  onLoadExample,
   onReset,
 }: MicrostripInputPanelProps) {
+  const selectedPreset = materialPresets.find(
+    (preset) => preset.id === form.presetId,
+  );
+  const selectedPresetId = selectedPreset?.id ?? CUSTOM_PRESET_ID;
+
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-4">
@@ -147,7 +198,16 @@ function MicrostripInputPanel({
             calculate line width from target impedance.
           </p>
         </div>
-        <ResetButton onClick={onReset} />
+        <div className="flex shrink-0 flex-wrap justify-end gap-2">
+          <button
+            type="button"
+            onClick={onLoadExample}
+            className="inline-flex min-h-9 items-center justify-center rounded-md border border-cyan-700 bg-cyan-50 px-3 text-sm font-medium text-cyan-900 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-700/20"
+          >
+            Load example
+          </button>
+          <ResetButton onClick={onReset} />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 rounded-md border border-slate-300 bg-slate-50 p-1 text-sm font-medium">
@@ -173,6 +233,41 @@ function MicrostripInputPanel({
         >
           Synthesis
         </button>
+      </div>
+
+      <div className="space-y-2">
+        <label
+          htmlFor="microstrip-material-preset"
+          className="block text-sm font-medium text-slate-800"
+        >
+          Material preset
+        </label>
+        <select
+          id="microstrip-material-preset"
+          value={selectedPresetId}
+          onChange={(event) => onPresetChange(event.target.value)}
+          className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100"
+        >
+          <option value={CUSTOM_PRESET_ID}>Custom</option>
+          {materialPresets.map((preset) => (
+            <option key={preset.id} value={preset.id}>
+              {preset.label}
+            </option>
+          ))}
+        </select>
+        <p className="text-sm leading-6 text-slate-600">
+          {selectedPreset
+            ? `${selectedPreset.description} eps_r = ${formatNumber(
+                selectedPreset.values.epsR,
+                3,
+              )}.`
+            : "Custom material: set eps_r manually."}
+        </p>
+        {selectedPreset?.sourceNote ? (
+          <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-900">
+            {selectedPreset.sourceNote}
+          </p>
+        ) : null}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

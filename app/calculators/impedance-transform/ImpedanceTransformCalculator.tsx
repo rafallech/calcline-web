@@ -53,6 +53,7 @@ const SMITH_VIEWPORT: SmithChartViewport = {
   centerY: 120,
   radius: 100,
 };
+const SMITH_SAMPLES = 361;
 
 export function ImpedanceTransformCalculator({
   calculator,
@@ -321,7 +322,7 @@ function buildImpedanceTransformSmithChartData(
 ) {
   const grid = generateSmithGrid({
     viewport: SMITH_VIEWPORT,
-    samples: 121,
+    samples: SMITH_SAMPLES,
   });
 
   if (!calculation.value) {
@@ -347,7 +348,7 @@ function buildImpedanceTransformSmithChartData(
   const tracePoints = sampleTransmissionLineTrace(
     startGamma,
     signedDistanceOverLambda,
-    121,
+    SMITH_SAMPLES,
   ).map((gamma) => svgPointFromGamma(gamma, SMITH_VIEWPORT));
 
   if (tracePoints.length > 0) {

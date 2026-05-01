@@ -66,6 +66,7 @@ const SMITH_VIEWPORT: SmithChartViewport = {
   centerY: 120,
   radius: 100,
 };
+const SMITH_SAMPLES = 361;
 
 export function SingleStubCalculator({
   calculator,
@@ -377,7 +378,7 @@ function buildSingleStubSmithChartData(
 ) {
   const grid = generateSmithGrid({
     viewport: SMITH_VIEWPORT,
-    samples: 121,
+    samples: SMITH_SAMPLES,
   });
 
   if (!calculation.value) {
@@ -401,7 +402,7 @@ function buildSingleStubSmithChartData(
   const tracePoints = sampleTransmissionLineTrace(
     loadGamma,
     solution.dOverLambda,
-    121,
+    SMITH_SAMPLES,
   ).map((gamma) => svgPointFromGamma(gamma, SMITH_VIEWPORT));
   const shiftedPoint =
     tracePoints[tracePoints.length - 1] ??

@@ -87,6 +87,7 @@ const SMITH_VIEWPORT: SmithChartViewport = {
   centerY: 120,
   radius: 100,
 };
+const SMITH_SAMPLES = 361;
 
 export function VswrCalculator({ calculator }: VswrCalculatorProps) {
   const [showImpedanceGrid, setShowImpedanceGrid] = useState(true);
@@ -516,7 +517,7 @@ function buildVswrSmithChartData(
 ) {
   const grid = generateSmithGrid({
     viewport: SMITH_VIEWPORT,
-    samples: 121,
+    samples: SMITH_SAMPLES,
     resistanceValues: showImpedanceGrid ? undefined : [],
     reactanceValues: showImpedanceGrid ? undefined : [],
   });
@@ -568,8 +569,8 @@ function buildVswrSmithChartData(
       {
         id: "constant-vswr",
         label: "constant VSWR",
-        points: sampleConstantGammaCircle(value.magGamma, 121).map((gamma) =>
-          svgPointFromGamma(gamma, SMITH_VIEWPORT),
+        points: sampleConstantGammaCircle(value.magGamma, SMITH_SAMPLES).map(
+          (gamma) => svgPointFromGamma(gamma, SMITH_VIEWPORT),
         ),
         color: "#f59e0b",
       },
@@ -580,7 +581,7 @@ function buildVswrSmithChartData(
 function buildAdmittanceOverlayCurves(): SmithGridCurve[] {
   return generateSmithGrid({
     viewport: SMITH_VIEWPORT,
-    samples: 121,
+    samples: SMITH_SAMPLES,
   })
     .curves.filter(
       (curve) => curve.kind === "resistance" || curve.kind === "reactance",

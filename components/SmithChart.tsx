@@ -1,6 +1,7 @@
 import type {
   SmithGridCurve,
   SmithGridData,
+  SmithGridLabel,
   SvgPoint,
 } from "@/lib/visualization/smithChart";
 
@@ -32,8 +33,8 @@ const DEFAULT_TRACE_COLOR = "#f59e0b";
 const GRID_STROKES: Record<SmithGridCurve["kind"], string> = {
   outerCircle: "#0f172a",
   realAxis: "#334155",
-  resistance: "#cbd5e1",
-  reactance: "#dbeafe",
+  resistance: "#94a3b8",
+  reactance: "#93c5fd",
 };
 
 export function SmithChart({
@@ -51,6 +52,7 @@ export function SmithChart({
     (curve) => curve.kind === "resistance" || curve.kind === "reactance",
   );
   const titleId = titleToId(title);
+  const clipPathId = `${titleId}-clip`;
   const legendItems = [
     ...traces.map((trace) => ({
       id: `trace-${trace.id}`,
@@ -83,15 +85,24 @@ export function SmithChart({
           className="aspect-square min-w-0 flex-1 overflow-visible"
         >
           <title id={titleId}>{title}</title>
-          <rect
-            x={grid.viewport.centerX - grid.viewport.radius}
-            y={grid.viewport.centerY - grid.viewport.radius}
-            width={grid.viewport.radius * 2}
-            height={grid.viewport.radius * 2}
+          <defs>
+            <clipPath id={clipPathId}>
+              <circle
+                cx={grid.viewport.centerX}
+                cy={grid.viewport.centerY}
+                r={grid.viewport.radius}
+              />
+            </clipPath>
+          </defs>
+          <circle
+            cx={grid.viewport.centerX}
+            cy={grid.viewport.centerY}
+            r={grid.viewport.radius}
             fill="#f8fafc"
-            opacity="0.7"
+            stroke="#e2e8f0"
+            strokeWidth="1"
           />
-          <g aria-label="Smith chart grid">
+          <g aria-label="Smith chart grid" clipPath={`url(#${clipPathId})`}>
             {gridCurves.map((curve) => (
               <GridCurve key={curve.id} curve={curve} />
             ))}
@@ -104,6 +115,11 @@ export function SmithChart({
           <g aria-label="Smith chart outer circle">
             {outerCurves.map((curve) => (
               <GridCurve key={curve.id} curve={curve} />
+            ))}
+          </g>
+          <g aria-label="Smith chart labels">
+            {grid.labels.map((label) => (
+              <GridLabel key={label.id} label={label} />
             ))}
           </g>
           <g aria-label="Smith chart overlay">
@@ -119,9 +135,9 @@ export function SmithChart({
           </g>
           <g aria-label="Smith chart traces">
             {traces.map((trace) => (
-              <polyline
+              <path
                 key={trace.id}
-                points={pointsToPolyline(trace.points)}
+                d={pointsToPath(trace.points)}
                 fill="none"
                 stroke={trace.color ?? DEFAULT_TRACE_COLOR}
                 strokeLinecap="round"
@@ -145,12 +161,12 @@ export function SmithChart({
           <div>
             <h2 className="text-sm font-semibold text-slate-950">{title}</h2>
             <p className="mt-1 text-xs leading-5 text-slate-500">
-              Normalized reflection coefficient plane.
+              Normalized impedance mapped to the reflection coefficient plane.
             </p>
           </div>
 
           {legendItems.length > 0 ? (
-            <ul className="space-y-2 text-sm text-slate-700">
+            <ul className="space-y-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-700">
               {legendItems.map((item) => (
                 <li key={item.id} className="flex min-w-0 items-center gap-2">
                   <span
@@ -181,7 +197,7 @@ function GridCurve({
   curve,
   stroke = GRID_STROKES[curve.kind],
   strokeDasharray,
-  opacity = curve.kind === "reactance" ? 0.95 : 1,
+  opacity = defaultCurveOpacity(curve),
 }: {
   curve: SmithGridCurve;
   stroke?: string;
@@ -189,16 +205,33 @@ function GridCurve({
   opacity?: number;
 }) {
   return (
-    <polyline
-      points={pointsToPolyline(curve.points)}
+    <path
+      d={pointsToPath(curve.points)}
       fill="none"
       stroke={stroke}
       strokeDasharray={strokeDasharray}
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={curve.kind === "outerCircle" ? 2.25 : 1.25}
+      strokeWidth={curveStrokeWidth(curve)}
       opacity={opacity}
     />
+  );
+}
+
+function GridLabel({ label }: { label: SmithGridLabel }) {
+  const isReactance = label.kind === "reactance";
+
+  return (
+    <text
+      x={label.point.x}
+      y={label.point.y}
+      dy={isReactance ? "0.32em" : "-0.45em"}
+      textAnchor="middle"
+      className="select-none fill-slate-500 text-[8px] font-medium"
+      opacity={isReactance ? 0.85 : 0.9}
+    >
+      {label.text}
+    </text>
   );
 }
 
@@ -218,11 +251,19 @@ function PointMarker({
       <circle
         cx={marker.point.x}
         cy={marker.point.y}
-        r="4.5"
+        r="7"
+        fill={color}
+        opacity="0.12"
+      />
+      <circle
+        cx={marker.point.x}
+        cy={marker.point.y}
+        r="4.75"
         fill="#ffffff"
         stroke={color}
-        strokeWidth="2.5"
+        strokeWidth="2.25"
       />
+      <circle cx={marker.point.x} cy={marker.point.y} r="1.7" fill={color} />
       <text
         x={labelX}
         y={labelY}
@@ -243,8 +284,43 @@ function buildViewBox(grid: SmithGridData): string {
   return `${minX} ${minY} ${size} ${size}`;
 }
 
-function pointsToPolyline(points: SvgPoint[]): string {
-  return points.map((point) => `${point.x},${point.y}`).join(" ");
+function pointsToPath(points: SvgPoint[]): string {
+  if (points.length === 0) {
+    return "";
+  }
+
+  const [first, ...rest] = points;
+
+  return [
+    `M ${formatSvgNumber(first.x)} ${formatSvgNumber(first.y)}`,
+    ...rest.map(
+      (point) => `L ${formatSvgNumber(point.x)} ${formatSvgNumber(point.y)}`,
+    ),
+  ].join(" ");
+}
+
+function curveStrokeWidth(curve: SmithGridCurve): number {
+  if (curve.kind === "outerCircle") {
+    return 2.4;
+  }
+
+  if (curve.kind === "realAxis") {
+    return 1.45;
+  }
+
+  return curve.detail === "major" ? 1.05 : 0.65;
+}
+
+function defaultCurveOpacity(curve: SmithGridCurve): number {
+  if (curve.kind === "outerCircle" || curve.kind === "realAxis") {
+    return 1;
+  }
+
+  return curve.detail === "major" ? 0.72 : 0.34;
+}
+
+function formatSvgNumber(value: number): string {
+  return Number(value.toFixed(4)).toString();
 }
 
 function titleToId(title: string): string {

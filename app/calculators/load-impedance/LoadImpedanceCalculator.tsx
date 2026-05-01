@@ -51,6 +51,7 @@ const SMITH_VIEWPORT: SmithChartViewport = {
   centerY: 120,
   radius: 100,
 };
+const SMITH_SAMPLES = 361;
 
 export function LoadImpedanceCalculator({
   calculator,
@@ -307,7 +308,7 @@ function buildLoadImpedanceSmithChartData(
 ) {
   const grid = generateSmithGrid({
     viewport: SMITH_VIEWPORT,
-    samples: 121,
+    samples: SMITH_SAMPLES,
   });
 
   if (!calculation.value) {

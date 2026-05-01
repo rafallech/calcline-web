@@ -122,8 +122,8 @@ describe("Smith chart grid", () => {
       samples: 17,
       resistanceValues: [0.5, 1],
       reactanceValues: [0.5],
-      maxResistance: 10,
-      maxReactance: 10,
+      minorResistanceValues: [],
+      minorReactanceValues: [],
     });
 
     expect(grid.viewport).toEqual(viewport);
@@ -138,6 +138,7 @@ describe("Smith chart grid", () => {
 
     for (const curve of grid.curves) {
       expect(curve.points.length).toBeGreaterThanOrEqual(2);
+      expect(curve.detail).toBe("major");
       for (const point of curve.points) {
         expect(point.x).toBeGreaterThanOrEqual(20 - 1e-9);
         expect(point.x).toBeLessThanOrEqual(180 + 1e-9);
@@ -145,6 +146,12 @@ describe("Smith chart grid", () => {
         expect(point.y).toBeLessThanOrEqual(180 + 1e-9);
       }
     }
+    expect(grid.labels.map((label) => label.id)).toEqual([
+      "label-r-0-5",
+      "label-r-1",
+      "label-x-0-5",
+      "label-x-minus-0-5",
+    ]);
   });
 
   it("places the real axis across the Smith chart diameter", () => {
@@ -156,6 +163,8 @@ describe("Smith chart grid", () => {
       },
       resistanceValues: [],
       reactanceValues: [],
+      minorResistanceValues: [],
+      minorReactanceValues: [],
     });
     const realAxis = grid.curves.find((curve) => curve.id === "real-axis");
 
@@ -163,5 +172,79 @@ describe("Smith chart grid", () => {
       { x: 5, y: 20 },
       { x: 15, y: 20 },
     ]);
+  });
+
+  it("uses exact constant-resistance circle geometry", () => {
+    const grid = generateSmithGrid({
+      samples: 73,
+      resistanceValues: [1],
+      reactanceValues: [],
+      minorResistanceValues: [],
+      minorReactanceValues: [],
+      showLabels: false,
+    });
+    const resistanceCircle = grid.curves.find(
+      (curve) => curve.id === "resistance-1",
+    );
+
+    expect(resistanceCircle).toBeDefined();
+    expect(resistanceCircle?.points).toHaveLength(73);
+
+    for (const point of resistanceCircle?.points ?? []) {
+      const gamma = gammaFromSvgPoint(point);
+      const distanceFromCenter = Math.hypot(gamma.re - 0.5, gamma.im);
+
+      expect(distanceFromCenter).toBeCloseTo(0.5, 12);
+      expect(abs(gamma)).toBeLessThanOrEqual(1 + 1e-12);
+    }
+  });
+
+  it("uses exact constant-reactance arc geometry", () => {
+    const grid = generateSmithGrid({
+      samples: 73,
+      resistanceValues: [],
+      reactanceValues: [1],
+      minorResistanceValues: [],
+      minorReactanceValues: [],
+      showLabels: false,
+    });
+    const reactanceArc = grid.curves.find(
+      (curve) => curve.id === "reactance-1",
+    );
+    const points = reactanceArc?.points ?? [];
+    const firstGamma = gammaFromSvgPoint(points[0]);
+    const lastGamma = gammaFromSvgPoint(points[points.length - 1]);
+
+    expect(points).toHaveLength(73);
+    expectComplexCloseTo(firstGamma, { re: 0, im: 1 });
+    expectComplexCloseTo(lastGamma, { re: 1, im: 0 });
+
+    for (const point of points) {
+      const gamma = gammaFromSvgPoint(point);
+      const distanceFromCenter = Math.hypot(gamma.re - 1, gamma.im - 1);
+
+      expect(distanceFromCenter).toBeCloseTo(1, 12);
+      expect(abs(gamma)).toBeLessThanOrEqual(1 + 1e-12);
+    }
+  });
+
+  it("adds a denser default major and minor grid", () => {
+    const grid = generateSmithGrid();
+    const resistanceCurves = grid.curves.filter(
+      (curve) => curve.kind === "resistance",
+    );
+    const reactanceCurves = grid.curves.filter(
+      (curve) => curve.kind === "reactance",
+    );
+
+    expect(resistanceCurves.some((curve) => curve.detail === "minor")).toBe(
+      true,
+    );
+    expect(reactanceCurves.some((curve) => curve.detail === "minor")).toBe(
+      true,
+    );
+    expect(resistanceCurves.length).toBeGreaterThan(5);
+    expect(reactanceCurves.length).toBeGreaterThan(10);
+    expect(grid.labels.length).toBeGreaterThan(0);
   });
 });

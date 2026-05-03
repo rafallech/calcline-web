@@ -11,6 +11,7 @@ import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateSParameters } from "@/lib/calculators/sParameters";
+import { calculateStripline } from "@/lib/calculators/stripline";
 import { calculateVswr } from "@/lib/calculators/vswr";
 import { calculateWavelength } from "@/lib/calculators/wavelength";
 import { calculateWilkinsonDivider } from "@/lib/calculators/wilkinson";
@@ -71,6 +72,13 @@ describe("calculator result contract", () => {
         z0Ohm: 0,
         fGHz: 1,
         epsEff: 1,
+      }),
+      calculateStripline({
+        wMm: 0,
+        bMm: 1,
+        tMm: 0,
+        epsR: 1,
+        fGHz: 1,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

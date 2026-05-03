@@ -7,6 +7,7 @@ export type CalculatorSlug =
   | "patch-antenna"
   | "attenuators"
   | "wilkinson-divider"
+  | "stripline"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -185,6 +186,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/wilkinson-divider.svg",
       alt: "Wilkinson power divider calculator icon",
+    },
+  },
+  {
+    slug: "stripline",
+    title: "Stripline",
+    shortTitle: "Stripline",
+    category: "transmission-lines",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate symmetric stripline impedance, guided wavelength, and propagation delay.",
+    route: "/calculators/stripline",
+    icon: {
+      src: "/icons/calculators/stripline.svg",
+      alt: "Stripline calculator icon",
     },
   },
   {

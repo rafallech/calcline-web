@@ -58,6 +58,13 @@ export const calculatorDefaults = {
     fGHz: 2.4,
     epsEff: 1,
   },
+  stripline: {
+    wMm: 1.2,
+    bMm: 3.2,
+    tMm: 0.035,
+    epsR: 4.4,
+    fGHz: 2.4,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

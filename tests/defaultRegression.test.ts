@@ -12,6 +12,7 @@ import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateSParameters } from "@/lib/calculators/sParameters";
+import { calculateStripline } from "@/lib/calculators/stripline";
 import { calculateVswr } from "@/lib/calculators/vswr";
 import { calculateWavelength } from "@/lib/calculators/wavelength";
 import { calculateWilkinsonDivider } from "@/lib/calculators/wilkinson";
@@ -53,6 +54,18 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.electricalLengthDeg).toBe(90);
     expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
+  });
+
+  it("keeps Stripline default result stable", () => {
+    const result = calculateStripline(calculatorDefaults.stripline);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.effectiveWidthMm).toBeCloseTo(1.2787184664, 10);
+    expect(result.value?.z0Ohm).toBeCloseTo(53.450977402, 10);
+    expect(result.value?.guidedWavelengthMm).toBeCloseTo(59.5501860919, 10);
+    expect(result.value?.propagationDelayPsPerMm).toBeCloseTo(6.9968994895, 10);
   });
 
   it("keeps Wavelength default result stable", () => {

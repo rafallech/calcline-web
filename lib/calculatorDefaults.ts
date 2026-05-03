@@ -2,6 +2,7 @@ import type { ImpedanceTransformDirection } from "@/lib/calculators/impedanceTra
 import type { CoplanarWaveguideMode } from "@/lib/calculators/coplanarWaveguide";
 import type { LoadImpedanceMinimumType } from "@/lib/calculators/loadImpedance";
 import type { MicrostripInput } from "@/lib/calculators/microstrip";
+import type { ReceiverNoiseBandwidthUnit } from "@/lib/calculators/receiverNoise";
 import type { SingleStubConfiguration } from "@/lib/calculators/singleStub";
 
 export const calculatorDefaults = {
@@ -43,6 +44,14 @@ export const calculatorDefaults = {
     rxCableLossDb: 2,
     additionalLossesDb: 3,
     receiverSensitivityDbm: -90,
+  },
+  receiverNoise: {
+    bandwidth: 1,
+    bandwidthUnit: "MHz" as ReceiverNoiseBandwidthUnit,
+    noiseFigureDb: 3,
+    temperatureK: 290,
+    requiredSnrDb: 10,
+    gainDb: 0,
   },
   patchAntenna: {
     fGHz: 2.4,

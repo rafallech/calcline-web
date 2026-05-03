@@ -4,6 +4,7 @@ export type CalculatorSlug =
   | "quarter-wave-transformer"
   | "s-parameters"
   | "link-budget"
+  | "receiver-noise"
   | "patch-antenna"
   | "attenuators"
   | "wilkinson-divider"
@@ -145,6 +146,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/link-budget.svg",
       alt: "Link budget calculator icon",
+    },
+  },
+  {
+    slug: "receiver-noise",
+    title: "Receiver Noise",
+    shortTitle: "Receiver Noise",
+    category: "system-calculators",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate thermal noise floor, noise figure impact, detectable signal, and receiver sensitivity.",
+    route: "/calculators/receiver-noise",
+    icon: {
+      src: "/icons/calculators/receiver-noise.svg",
+      alt: "Receiver noise calculator icon",
     },
   },
   {

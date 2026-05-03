@@ -8,6 +8,7 @@ import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
+import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
@@ -63,6 +64,14 @@ describe("calculator result contract", () => {
         rxCableLossDb: 0,
         additionalLossesDb: 0,
         receiverSensitivityDbm: -100,
+      }),
+      calculateReceiverNoise({
+        bandwidth: 0,
+        bandwidthUnit: "MHz",
+        noiseFigureDb: 3,
+        temperatureK: 290,
+        requiredSnrDb: 10,
+        gainDb: 0,
       }),
       calculatePatchAntenna({
         fGHz: 0,

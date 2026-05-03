@@ -9,6 +9,7 @@ import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
+import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
@@ -156,6 +157,34 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.fsplDb).toBeCloseTo(114.0314081428, 10);
     expect(result.value?.receivedPowerDbm).toBeCloseTo(-68.0314081428, 10);
     expect(result.value?.linkMarginDb).toBeCloseTo(21.9685918572, 10);
+  });
+
+  it("keeps Receiver Noise default result stable", () => {
+    const result = calculateReceiverNoise(calculatorDefaults.receiverNoise);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.thermalNoiseDensityDbmPerHz).toBeCloseTo(
+      -173.9751871942,
+      10,
+    );
+    expect(result.value?.thermalNoiseFloorDbm).toBeCloseTo(
+      -113.9751871942,
+      10,
+    );
+    expect(result.value?.noiseFloorWithNfDbm).toBeCloseTo(
+      -110.9751871942,
+      10,
+    );
+    expect(result.value?.minimumDetectableSignalDbm).toBeCloseTo(
+      -100.9751871942,
+      10,
+    );
+    expect(result.value?.sensitivityEstimateDbm).toBeCloseTo(
+      -100.9751871942,
+      10,
+    );
   });
 
   it("keeps Patch Antenna default result stable", () => {

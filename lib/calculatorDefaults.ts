@@ -3,6 +3,7 @@ import type { CoplanarWaveguideMode } from "@/lib/calculators/coplanarWaveguide"
 import type { LoadImpedanceMinimumType } from "@/lib/calculators/loadImpedance";
 import type { MicrostripLossMode } from "@/lib/calculators/microstripLoss";
 import type { MicrostripInput } from "@/lib/calculators/microstrip";
+import type { PiTMatchingNetwork } from "@/lib/calculators/piTMatching";
 import type { ReceiverNoiseBandwidthUnit } from "@/lib/calculators/receiverNoise";
 import type { SingleStubConfiguration } from "@/lib/calculators/singleStub";
 
@@ -24,6 +25,13 @@ export const calculatorDefaults = {
     rLOhm: 100,
     fGHz: 2.4,
     epsEff: 1,
+  },
+  piTMatching: {
+    network: "pi" as PiTMatchingNetwork,
+    sourceResistanceOhm: 50,
+    loadResistanceOhm: 200,
+    frequencyMHz: 100,
+    targetQ: 3,
   },
   sParameters: {
     s11Format: "magnitude",

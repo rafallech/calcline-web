@@ -517,6 +517,57 @@ export function DirectionalCouplerDiagram() {
   );
 }
 
+type PiTMatchingDiagramProps = {
+  network: "pi" | "t";
+};
+
+export function PiTMatchingDiagram({ network }: PiTMatchingDiagramProps) {
+  return (
+    <DiagramFrame title={network === "pi" ? "Pi matching sketch" : "T matching sketch"}>
+      <svg
+        viewBox="0 0 720 280"
+        role="img"
+        aria-labelledby="pi-t-matching-title"
+        className="h-auto w-full"
+      >
+        <title id="pi-t-matching-title">
+          {network === "pi" ? "Pi matching network" : "T matching network"}
+        </title>
+        <line x1="80" y1="120" x2="640" y2="120" stroke="#0f172a" strokeWidth="5" />
+        <text x="85" y="92" className="fill-slate-700 text-[21px]">
+          Rs
+        </text>
+        <text x="606" y="92" className="fill-slate-700 text-[21px]">
+          RL
+        </text>
+        {network === "pi" ? (
+          <>
+            <CapacitorSymbol x={190} y={156} label="Csource" orientation="vertical" />
+            <InductorSymbol x={360} y={120} label="Lseries" orientation="horizontal" />
+            <CapacitorSymbol x={530} y={156} label="Cload" orientation="vertical" />
+            <line x1="190" y1="120" x2="190" y2="156" stroke="#0f172a" strokeWidth="5" />
+            <line x1="190" y1="202" x2="190" y2="232" stroke="#0f172a" strokeWidth="5" />
+            <line x1="530" y1="120" x2="530" y2="156" stroke="#0f172a" strokeWidth="5" />
+            <line x1="530" y1="202" x2="530" y2="232" stroke="#0f172a" strokeWidth="5" />
+          </>
+        ) : (
+          <>
+            <InductorSymbol x={240} y={120} label="Lsource" orientation="horizontal" />
+            <CapacitorSymbol x={360} y={156} label="Cshunt" orientation="vertical" />
+            <InductorSymbol x={500} y={120} label="Lload" orientation="horizontal" />
+            <line x1="360" y1="120" x2="360" y2="156" stroke="#0f172a" strokeWidth="5" />
+            <line x1="360" y1="202" x2="360" y2="232" stroke="#0f172a" strokeWidth="5" />
+          </>
+        )}
+        <line x1="140" y1="232" x2="580" y2="232" stroke="#64748b" strokeWidth="5" />
+        <text x="360" y="262" textAnchor="middle" className="fill-slate-700 text-[21px]">
+          ground
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 type ResistorProps = {
   x: number;
   y: number;
@@ -553,6 +604,75 @@ function Resistor({ x, y, label, orientation }: ResistorProps) {
       />
       <line x1={x} y1={y + 56} x2={x} y2="236" stroke="#0f172a" strokeWidth="5" />
       <text x={x + 28} y={y + 12} className="fill-slate-700 text-[19px]">
+        {label}
+      </text>
+    </>
+  );
+}
+
+type ReactiveSymbolProps = {
+  x: number;
+  y: number;
+  label: string;
+  orientation: "horizontal" | "vertical";
+};
+
+function InductorSymbol({ x, y, label, orientation }: ReactiveSymbolProps) {
+  if (orientation === "horizontal") {
+    return (
+      <>
+        <path
+          d={`M${x - 70} ${y} h18 c0 -18 20 -18 20 0 c0 -18 20 -18 20 0 c0 -18 20 -18 20 0 h18`}
+          fill="none"
+          stroke="#0f172a"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <text x={x} y={y - 28} textAnchor="middle" className="fill-slate-700 text-[18px]">
+          {label}
+        </text>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <path
+        d={`M${x} ${y - 70} v18 c18 0 18 20 0 20 c18 0 18 20 0 20 c18 0 18 20 0 20 v18`}
+        fill="none"
+        stroke="#0f172a"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <text x={x + 28} y={y + 4} className="fill-slate-700 text-[18px]">
+        {label}
+      </text>
+    </>
+  );
+}
+
+function CapacitorSymbol({ x, y, label, orientation }: ReactiveSymbolProps) {
+  if (orientation === "horizontal") {
+    return (
+      <>
+        <line x1={x - 62} y1={y} x2={x - 12} y2={y} stroke="#0f172a" strokeWidth="5" />
+        <line x1={x - 12} y1={y - 22} x2={x - 12} y2={y + 22} stroke="#0f172a" strokeWidth="5" />
+        <line x1={x + 12} y1={y - 22} x2={x + 12} y2={y + 22} stroke="#0f172a" strokeWidth="5" />
+        <line x1={x + 12} y1={y} x2={x + 62} y2={y} stroke="#0f172a" strokeWidth="5" />
+        <text x={x} y={y - 34} textAnchor="middle" className="fill-slate-700 text-[18px]">
+          {label}
+        </text>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <line x1={x} y1={y - 46} x2={x} y2={y - 10} stroke="#0f172a" strokeWidth="5" />
+      <line x1={x - 22} y1={y - 10} x2={x + 22} y2={y - 10} stroke="#0f172a" strokeWidth="5" />
+      <line x1={x - 22} y1={y + 12} x2={x + 22} y2={y + 12} stroke="#0f172a" strokeWidth="5" />
+      <line x1={x} y1={y + 12} x2={x} y2={y + 46} stroke="#0f172a" strokeWidth="5" />
+      <text x={x + 30} y={y + 6} className="fill-slate-700 text-[18px]">
         {label}
       </text>
     </>

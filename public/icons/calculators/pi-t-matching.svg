@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Pi and T matching calculator icon</title>
+  <desc id="desc">Pi and T RF matching network symbols.</desc>
+  <rect width="96" height="96" rx="18" fill="#f8fafc"/>
+  <path d="M14 33h68M24 33v28M72 33v28M24 61h48" fill="none" stroke="#0891b2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 52h8M20 58h8M68 52h8M68 58h8" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M36 33c0-8 8-8 8 0s8 8 8 0 8-8 8 0" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+  <text x="29" y="77" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#334155">Pi</text>
+  <text x="67" y="77" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#334155">T</text>
+</svg>

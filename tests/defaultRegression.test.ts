@@ -11,6 +11,7 @@ import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateMicrostripLoss } from "@/lib/calculators/microstripLoss";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
+import { calculatePiTMatching } from "@/lib/calculators/piTMatching";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
 import { calculateRfCascade } from "@/lib/calculators/rfCascade";
@@ -146,6 +147,28 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.lambda0M).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
+  });
+
+  it("keeps Pi/T Matching default result stable", () => {
+    const result = calculatePiTMatching(calculatorDefaults.piTMatching);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.network).toBe("pi");
+    expect(result.value?.virtualResistanceOhm).toBeCloseTo(20, 12);
+    expect(result.value?.reactancesOhm.centerSeries).toBeCloseTo(
+      84.4948974278,
+      10,
+    );
+    expect(result.value?.susceptancesS.sourceShunt).toBeCloseTo(
+      0.0244948974,
+      10,
+    );
+    expect(result.value?.susceptancesS.loadShunt).toBeCloseTo(0.015, 12);
+    expect(result.value?.elements[0]?.value).toBeCloseTo(38.9848400617, 10);
+    expect(result.value?.elements[1]?.value).toBeCloseTo(134.4778059168, 10);
+    expect(result.value?.elements[2]?.value).toBeCloseTo(23.8732414638, 10);
   });
 
   it("keeps S-parameter default result stable", () => {

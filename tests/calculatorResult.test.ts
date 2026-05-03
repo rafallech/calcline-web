@@ -10,6 +10,7 @@ import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateMicrostripLoss } from "@/lib/calculators/microstripLoss";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
+import { calculatePiTMatching } from "@/lib/calculators/piTMatching";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
 import { calculateRfCascade } from "@/lib/calculators/rfCascade";
@@ -47,6 +48,13 @@ describe("calculator result contract", () => {
         rLOhm: 50,
         fGHz: 1,
         epsEff: 1,
+      }),
+      calculatePiTMatching({
+        network: "pi",
+        sourceResistanceOhm: 0,
+        loadResistanceOhm: 50,
+        frequencyMHz: 100,
+        targetQ: 3,
       }),
       calculateSParameters({
         s11Format: "magnitude",

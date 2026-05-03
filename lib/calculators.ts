@@ -2,6 +2,7 @@ export type CalculatorSlug =
   | "wavelength"
   | "rf-power"
   | "quarter-wave-transformer"
+  | "pi-t-matching"
   | "s-parameters"
   | "link-budget"
   | "receiver-noise"
@@ -122,6 +123,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/quarter-wave-transformer.svg",
       alt: "Quarter-wave transformer calculator icon",
+    },
+  },
+  {
+    slug: "pi-t-matching",
+    title: "Pi and T Matching Networks",
+    shortTitle: "Pi/T Matching",
+    category: "matching",
+    sourceScreen: "New calculator",
+    description:
+      "Design ideal low-pass Pi or T matching networks from resistance ratio, frequency, and target Q.",
+    route: "/calculators/pi-t-matching",
+    icon: {
+      src: "/icons/calculators/pi-t-matching.svg",
+      alt: "Pi and T matching networks calculator icon",
     },
   },
   {

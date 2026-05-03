@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -16,6 +17,11 @@ import { calculateWavelength } from "@/lib/calculators/wavelength";
 describe("calculator result contract", () => {
   it("returns ok, value, errors, and warnings for validation failures", () => {
     const invalidResults = [
+      calculateAttenuator({
+        topology: "pi",
+        z0Ohm: 0,
+        attenuationDb: 6,
+      }),
       calculateWavelength({
         frequency: 0,
         frequencyUnit: "GHz",

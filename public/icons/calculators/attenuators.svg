@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 96" role="img" aria-labelledby="title desc">
+  <title id="title">Resistive attenuator calculator icon</title>
+  <desc id="desc">A resistor attenuator network with input and output lines.</desc>
+  <rect width="144" height="96" rx="8" fill="#f8fafc"/>
+  <path d="M15 48h24l7-12 14 24 14-24 14 24 7-12h34" fill="none" stroke="#334155" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M72 48v25" stroke="#0e7490" stroke-width="5" stroke-linecap="round"/>
+  <path d="M54 76h36" stroke="#0e7490" stroke-width="5" stroke-linecap="round"/>
+  <text x="72" y="90" fill="#334155" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">dB</text>
+</svg>
+

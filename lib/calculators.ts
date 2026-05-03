@@ -5,6 +5,7 @@ export type CalculatorSlug =
   | "s-parameters"
   | "link-budget"
   | "patch-antenna"
+  | "attenuators"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -155,6 +156,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/patch-antenna.svg",
       alt: "Microstrip patch antenna calculator icon",
+    },
+  },
+  {
+    slug: "attenuators",
+    title: "Resistive Attenuators",
+    shortTitle: "Attenuators",
+    category: "passive-components",
+    sourceScreen: "New calculator",
+    description:
+      "Design ideal symmetric Pi and T resistive attenuators for a target attenuation.",
+    route: "/calculators/attenuators",
+    icon: {
+      src: "/icons/calculators/attenuators.svg",
+      alt: "Resistive attenuator calculator icon",
     },
   },
   {

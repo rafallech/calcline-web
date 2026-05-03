@@ -201,6 +201,90 @@ export function PatchAntennaDiagram() {
   );
 }
 
+type AttenuatorDiagramProps = {
+  topology: "pi" | "t";
+};
+
+export function AttenuatorDiagram({ topology }: AttenuatorDiagramProps) {
+  return (
+    <DiagramFrame title={topology === "pi" ? "Pi attenuator sketch" : "T attenuator sketch"}>
+      <svg
+        viewBox="0 0 720 280"
+        role="img"
+        aria-labelledby="attenuator-title"
+        className="h-auto w-full"
+      >
+        <title id="attenuator-title">
+          {topology === "pi" ? "Pi attenuator circuit" : "T attenuator circuit"}
+        </title>
+        <line x1="80" y1="120" x2="640" y2="120" stroke="#0f172a" strokeWidth="5" />
+        <text x="88" y="92" className="fill-slate-700 text-[21px]">in</text>
+        <text x="606" y="92" className="fill-slate-700 text-[21px]">out</text>
+        {topology === "pi" ? (
+          <>
+            <Resistor x={308} y={120} label="Rseries" orientation="horizontal" />
+            <line x1="190" y1="120" x2="190" y2="222" stroke="#0f172a" strokeWidth="5" />
+            <Resistor x={190} y={164} label="Rshunt in" orientation="vertical" />
+            <line x1="530" y1="120" x2="530" y2="222" stroke="#0f172a" strokeWidth="5" />
+            <Resistor x={530} y={164} label="Rshunt out" orientation="vertical" />
+          </>
+        ) : (
+          <>
+            <Resistor x={225} y={120} label="Rseries in" orientation="horizontal" />
+            <Resistor x={455} y={120} label="Rseries out" orientation="horizontal" />
+            <line x1="360" y1="120" x2="360" y2="222" stroke="#0f172a" strokeWidth="5" />
+            <Resistor x={360} y={164} label="Rshunt" orientation="vertical" />
+          </>
+        )}
+        <line x1="150" y1="236" x2="570" y2="236" stroke="#64748b" strokeWidth="5" />
+        <text x="360" y="263" textAnchor="middle" className="fill-slate-700 text-[21px]">ground</text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
+type ResistorProps = {
+  x: number;
+  y: number;
+  label: string;
+  orientation: "horizontal" | "vertical";
+};
+
+function Resistor({ x, y, label, orientation }: ResistorProps) {
+  if (orientation === "horizontal") {
+    return (
+      <>
+        <path
+          d={`M${x - 50} ${y} h14 l8 -14 l16 28 l16 -28 l16 28 l8 -14 h14`}
+          fill="none"
+          stroke="#0f172a"
+          strokeWidth="5"
+          strokeLinejoin="round"
+        />
+        <text x={x} y={y - 32} textAnchor="middle" className="fill-slate-700 text-[19px]">
+          {label}
+        </text>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <path
+        d={`M${x} ${y - 42} v12 l-14 8 l28 16 l-28 16 l28 16 l-14 8 v12`}
+        fill="none"
+        stroke="#0f172a"
+        strokeWidth="5"
+        strokeLinejoin="round"
+      />
+      <line x1={x} y1={y + 56} x2={x} y2="236" stroke="#0f172a" strokeWidth="5" />
+      <text x={x + 28} y={y + 12} className="fill-slate-700 text-[19px]">
+        {label}
+      </text>
+    </>
+  );
+}
+
 type SingleStubDiagramProps = {
   configuration: "openSeries" | "shortSeries" | "openShunt" | "shortShunt";
 };

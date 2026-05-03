@@ -48,6 +48,11 @@ export const calculatorDefaults = {
     epsR: 4.4,
     hMm: 1.6,
   },
+  attenuators: {
+    topology: "pi",
+    z0Ohm: 50,
+    attenuationDb: 6,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { calculatorDefaults } from "@/lib/calculatorDefaults";
+import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -16,6 +17,25 @@ import { calculateWavelength } from "@/lib/calculators/wavelength";
 import type { Complex } from "@/lib/math/complex";
 
 describe("default-value calculator regressions", () => {
+  it("keeps Resistive Attenuators default Pi result stable", () => {
+    const result = calculateAttenuator(calculatorDefaults.attenuators);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.voltageRatio).toBeCloseTo(1.995262315, 9);
+    expect(result.value?.powerRatio).toBeCloseTo(3.9810717055, 10);
+    expect(result.value?.resistors.topology).toBe("pi");
+
+    if (result.value?.resistors.topology !== "pi") {
+      throw new Error("Expected Pi attenuator");
+    }
+
+    expect(result.value.resistors.rSeriesOhm).toBeCloseTo(37.35187703, 8);
+    expect(result.value.resistors.rShuntInputOhm).toBeCloseTo(150.47602375, 8);
+    expect(result.value.resistors.rShuntOutputOhm).toBeCloseTo(150.47602375, 8);
+  });
+
   it("keeps Wavelength default result stable", () => {
     const result = calculateWavelength(calculatorDefaults.wavelength);
 

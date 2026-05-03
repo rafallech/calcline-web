@@ -10,6 +10,7 @@ import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateMicrostripLoss } from "@/lib/calculators/microstripLoss";
+import { calculateMultisectionTransformer } from "@/lib/calculators/multisectionTransformer";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculatePiTMatching } from "@/lib/calculators/piTMatching";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
@@ -147,6 +148,24 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.lambda0M).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
+  });
+
+  it("keeps Multi-section Impedance Transformer default result stable", () => {
+    const result = calculateMultisectionTransformer(
+      calculatorDefaults.multisectionTransformer,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.sectionLengthM).toBeCloseTo(0.031228381, 10);
+    expect(result.value?.sections.map((section) => section.impedanceOhm)).toEqual([
+      expect.closeTo(54.5253866333, 10),
+      expect.closeTo(70.7106781187, 10),
+      expect.closeTo(91.7004043205, 10),
+    ]);
+    expect(result.value?.bandwidthNote).toContain("Chebyshev");
   });
 
   it("keeps Pi/T Matching default result stable", () => {

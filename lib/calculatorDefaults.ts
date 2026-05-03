@@ -26,6 +26,13 @@ export const calculatorDefaults = {
     fGHz: 2.4,
     epsEff: 1,
   },
+  multisectionTransformer: {
+    z0Ohm: 50,
+    zLOhm: 100,
+    sections: 3,
+    fGHz: 2.4,
+    epsEff: 1,
+  },
   piTMatching: {
     network: "pi" as PiTMatchingNetwork,
     sourceResistanceOhm: 50,

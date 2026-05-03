@@ -9,6 +9,7 @@ import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateMicrostripLoss } from "@/lib/calculators/microstripLoss";
+import { calculateMultisectionTransformer } from "@/lib/calculators/multisectionTransformer";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculatePiTMatching } from "@/lib/calculators/piTMatching";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
@@ -46,6 +47,13 @@ describe("calculator result contract", () => {
       calculateQuarterWaveTransformer({
         z0Ohm: 0,
         rLOhm: 50,
+        fGHz: 1,
+        epsEff: 1,
+      }),
+      calculateMultisectionTransformer({
+        z0Ohm: 0,
+        zLOhm: 50,
+        sections: 1,
         fGHz: 1,
         epsEff: 1,
       }),

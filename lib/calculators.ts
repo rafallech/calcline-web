@@ -2,6 +2,7 @@ export type CalculatorSlug =
   | "wavelength"
   | "rf-power"
   | "quarter-wave-transformer"
+  | "multisection-transformer"
   | "pi-t-matching"
   | "s-parameters"
   | "link-budget"
@@ -123,6 +124,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/quarter-wave-transformer.svg",
       alt: "Quarter-wave transformer calculator icon",
+    },
+  },
+  {
+    slug: "multisection-transformer",
+    title: "Multi-section Impedance Transformer",
+    shortTitle: "Multi-section",
+    category: "matching",
+    sourceScreen: "New calculator",
+    description:
+      "Design a binomial multi-section quarter-wave impedance transformer.",
+    route: "/calculators/multisection-transformer",
+    icon: {
+      src: "/icons/calculators/multisection-transformer.svg",
+      alt: "Multi-section impedance transformer calculator icon",
     },
   },
   {

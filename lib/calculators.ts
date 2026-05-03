@@ -11,6 +11,7 @@ export type CalculatorSlug =
   | "filter-prototype"
   | "patch-antenna"
   | "horn-antenna"
+  | "dipole-monopole"
   | "attenuators"
   | "wilkinson-divider"
   | "directional-coupler"
@@ -251,6 +252,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/horn-antenna.svg",
       alt: "Horn antenna calculator icon",
+    },
+  },
+  {
+    slug: "dipole-monopole",
+    title: "Dipole and Monopole Antenna",
+    shortTitle: "Dipole/Monopole",
+    category: "antennas",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate half-wave dipole and quarter-wave monopole lengths from frequency and velocity factor.",
+    route: "/calculators/dipole-monopole",
+    icon: {
+      src: "/icons/calculators/dipole-monopole.svg",
+      alt: "Dipole and monopole antenna calculator icon",
     },
   },
   {

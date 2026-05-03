@@ -364,6 +364,88 @@ export function HornAntennaDiagram() {
   );
 }
 
+export function DipoleMonopoleDiagram() {
+  return (
+    <DiagramFrame title="Dipole and monopole sketch">
+      <svg
+        viewBox="0 0 720 320"
+        role="img"
+        aria-labelledby="dipole-monopole-title"
+        className="h-auto w-full"
+      >
+        <title id="dipole-monopole-title">
+          Half-wave dipole and quarter-wave monopole dimensions
+        </title>
+        <line
+          x1="130"
+          y1="110"
+          x2="315"
+          y2="110"
+          stroke="#0891b2"
+          strokeWidth="8"
+          strokeLinecap="round"
+        />
+        <line
+          x1="405"
+          y1="110"
+          x2="590"
+          y2="110"
+          stroke="#0891b2"
+          strokeWidth="8"
+          strokeLinecap="round"
+        />
+        <circle cx="360" cy="110" r="12" fill="#f59e0b" stroke="#92400e" strokeWidth="3" />
+        <line x1="315" y1="110" x2="348" y2="110" stroke="#0f172a" strokeWidth="5" />
+        <line x1="372" y1="110" x2="405" y2="110" stroke="#0f172a" strokeWidth="5" />
+        <text
+          x="360"
+          y="66"
+          textAnchor="middle"
+          className="fill-slate-700 text-[22px] font-semibold"
+        >
+          half-wave dipole
+        </text>
+        <line x1="130" y1="145" x2="590" y2="145" stroke="#0891b2" strokeWidth="3" />
+        <line x1="130" y1="135" x2="130" y2="155" stroke="#0891b2" strokeWidth="3" />
+        <line x1="590" y1="135" x2="590" y2="155" stroke="#0891b2" strokeWidth="3" />
+        <text
+          x="360"
+          y="176"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px]"
+        >
+          total length = lambda corrected / 2
+        </text>
+        <line
+          x1="360"
+          y1="225"
+          x2="360"
+          y2="115"
+          stroke="#0891b2"
+          strokeWidth="8"
+          strokeLinecap="round"
+        />
+        <circle cx="360" cy="225" r="10" fill="#f59e0b" stroke="#92400e" strokeWidth="3" />
+        <line x1="250" y1="242" x2="470" y2="242" stroke="#64748b" strokeWidth="6" />
+        <line x1="390" y1="225" x2="390" y2="115" stroke="#0891b2" strokeWidth="3" />
+        <line x1="380" y1="225" x2="400" y2="225" stroke="#0891b2" strokeWidth="3" />
+        <line x1="380" y1="115" x2="400" y2="115" stroke="#0891b2" strokeWidth="3" />
+        <text x="410" y="178" className="fill-slate-700 text-[20px]">
+          monopole = lambda corrected / 4
+        </text>
+        <text
+          x="360"
+          y="280"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px]"
+        >
+          ground plane or radials
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 type AttenuatorDiagramProps = {
   topology: "pi" | "t";
 };

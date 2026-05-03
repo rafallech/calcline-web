@@ -1,5 +1,6 @@
 import type { ImpedanceTransformDirection } from "@/lib/calculators/impedanceTransform";
 import type { CoplanarWaveguideMode } from "@/lib/calculators/coplanarWaveguide";
+import type { DipoleMonopoleAntennaType } from "@/lib/calculators/dipoleMonopole";
 import type { LoadImpedanceMinimumType } from "@/lib/calculators/loadImpedance";
 import type { MicrostripLossMode } from "@/lib/calculators/microstripLoss";
 import type { MicrostripInput } from "@/lib/calculators/microstrip";
@@ -109,6 +110,11 @@ export const calculatorDefaults = {
     apertureWidthMm: 100,
     apertureHeightMm: 50,
     apertureEfficiency: 0.6,
+  },
+  dipoleMonopole: {
+    frequencyMHz: 300,
+    velocityFactor: 0.95,
+    antennaType: "halfWaveDipole" as DipoleMonopoleAntennaType,
   },
   attenuators: {
     topology: "pi",

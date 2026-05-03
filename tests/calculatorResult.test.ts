@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
+import { calculateDipoleMonopole } from "@/lib/calculators/dipoleMonopole";
 import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
 import { calculateFilterPrototype } from "@/lib/calculators/filterPrototype";
 import { calculateHornAntenna } from "@/lib/calculators/hornAntenna";
@@ -118,6 +119,11 @@ describe("calculator result contract", () => {
         apertureWidthMm: 100,
         apertureHeightMm: 50,
         apertureEfficiency: 0.6,
+      }),
+      calculateDipoleMonopole({
+        frequencyMHz: 0,
+        velocityFactor: 0.95,
+        antennaType: "halfWaveDipole",
       }),
       calculateWilkinsonDivider({
         z0Ohm: 0,

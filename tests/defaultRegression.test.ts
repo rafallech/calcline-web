@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { calculatorDefaults } from "@/lib/calculatorDefaults";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
+import { calculateDipoleMonopole } from "@/lib/calculators/dipoleMonopole";
 import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
 import { calculateFilterPrototype } from "@/lib/calculators/filterPrototype";
 import { calculateHornAntenna } from "@/lib/calculators/hornAntenna";
@@ -337,6 +338,22 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.gainDbi).toBeCloseTo(16.2268971289, 10);
     expect(result.value?.beamwidthEPlaneDeg).toBeCloseTo(33.576755296, 10);
     expect(result.value?.beamwidthHPlaneDeg).toBeCloseTo(20.086094686, 10);
+  });
+
+  it("keeps Dipole and Monopole Antenna default result stable", () => {
+    const result = calculateDipoleMonopole(calculatorDefaults.dipoleMonopole);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([
+      "Dipole and monopole lengths are starting estimates; trim and tune with measurement in the final installation.",
+    ]);
+    expect(result.value?.freeSpaceWavelengthM).toBeCloseTo(0.9993081933, 10);
+    expect(result.value?.correctedWavelengthM).toBeCloseTo(0.9493427837, 10);
+    expect(result.value?.totalDipoleLengthM).toBeCloseTo(0.4746713918, 10);
+    expect(result.value?.eachDipoleArmLengthM).toBeCloseTo(0.2373356959, 10);
+    expect(result.value?.monopoleLengthM).toBeCloseTo(0.2373356959, 10);
+    expect(result.value?.selectedLengthLabel).toBe("total dipole length");
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

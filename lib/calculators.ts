@@ -5,6 +5,7 @@ export type CalculatorSlug =
   | "s-parameters"
   | "link-budget"
   | "receiver-noise"
+  | "rf-cascade"
   | "patch-antenna"
   | "attenuators"
   | "wilkinson-divider"
@@ -160,6 +161,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/receiver-noise.svg",
       alt: "Receiver noise calculator icon",
+    },
+  },
+  {
+    slug: "rf-cascade",
+    title: "RF Cascade",
+    shortTitle: "RF Cascade",
+    category: "system-calculators",
+    sourceScreen: "New calculator",
+    description:
+      "Analyze RF chain gain, Friis noise figure, stage output powers, and optional cascaded IP3.",
+    route: "/calculators/rf-cascade",
+    icon: {
+      src: "/icons/calculators/rf-cascade.svg",
+      alt: "RF cascade calculator icon",
     },
   },
   {

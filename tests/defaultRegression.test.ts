@@ -10,6 +10,7 @@ import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
+import { calculateRfCascade } from "@/lib/calculators/rfCascade";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
@@ -185,6 +186,21 @@ describe("default-value calculator regressions", () => {
       -100.9751871942,
       10,
     );
+  });
+
+  it("keeps RF Cascade default result stable", () => {
+    const result = calculateRfCascade(calculatorDefaults.rfCascade);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.totalGainDb).toBe(32);
+    expect(result.value?.cascadedNoiseFigureDb).toBeCloseTo(1.416980356, 9);
+    expect(result.value?.outputStages.map((stage) => stage.outputPowerDbm)).toEqual(
+      [-15, -18, 2],
+    );
+    expect(result.value?.cascadedIp3?.iip3Dbm).toBeCloseTo(-2.0316296149, 10);
+    expect(result.value?.cascadedIp3?.oip3Dbm).toBeCloseTo(29.9683703851, 10);
   });
 
   it("keeps Patch Antenna default result stable", () => {

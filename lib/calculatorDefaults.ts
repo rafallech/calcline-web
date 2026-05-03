@@ -53,6 +53,31 @@ export const calculatorDefaults = {
     requiredSnrDb: 10,
     gainDb: 0,
   },
+  rfCascade: {
+    inputPowerDbm: -30,
+    stages: [
+      {
+        name: "LNA",
+        gainDb: 15,
+        noiseFigureDb: 1,
+        p1dBDbm: 10,
+        oip3Dbm: 35,
+      },
+      {
+        name: "Filter",
+        gainDb: -3,
+        noiseFigureDb: 3,
+        oip3Dbm: 40,
+      },
+      {
+        name: "IF amp",
+        gainDb: 20,
+        noiseFigureDb: 4,
+        p1dBDbm: 15,
+        oip3Dbm: 30,
+      },
+    ],
+  },
   patchAntenna: {
     fGHz: 2.4,
     epsR: 4.4,

@@ -4,6 +4,7 @@ import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransfor
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateVswr } from "@/lib/calculators/vswr";
@@ -22,6 +23,21 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.lengthInWavelengths).toBeCloseTo(1.0006922856, 10);
     expect(result.value?.electricalLengthDeg).toBeCloseTo(360.2492228, 7);
     expect(result.value?.electricalLengthRad).toBeCloseTo(6.2875350659, 10);
+  });
+
+  it("keeps RF Power default 0 dBm result stable", () => {
+    const result = calculateRfPower(calculatorDefaults.rfPower);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.dBm).toBeCloseTo(0, 12);
+    expect(result.value?.dBW).toBeCloseTo(-30, 12);
+    expect(result.value?.w).toBeCloseTo(0.001, 12);
+    expect(result.value?.mW).toBeCloseTo(1, 12);
+    expect(result.value?.vrms).toBeCloseTo(Math.sqrt(0.05), 12);
+    expect(result.value?.vpp).toBeCloseTo(2 * Math.sqrt(2) * Math.sqrt(0.05), 12);
+    expect(result.value?.irms).toBeCloseTo(Math.sqrt(0.05) / 50, 12);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

@@ -1,5 +1,6 @@
 export type CalculatorSlug =
   | "wavelength"
+  | "rf-power"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -33,6 +34,19 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/wavelength.svg",
       alt: "Wavelength and electrical length calculator icon",
+    },
+  },
+  {
+    slug: "rf-power",
+    title: "RF Power and dB Converter",
+    shortTitle: "RF Power",
+    sourceScreen: "New calculator",
+    description:
+      "Convert RF power between dBm, dBW, watts, milliwatts, voltage, and current.",
+    route: "/calculators/rf-power",
+    icon: {
+      src: "/icons/calculators/rf-power.svg",
+      alt: "RF power and dB converter icon",
     },
   },
   {

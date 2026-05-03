@@ -11,6 +11,11 @@ export const calculatorDefaults = {
     physicalLength: 125,
     lengthUnit: "mm",
   },
+  rfPower: {
+    type: "dBm",
+    value: 0,
+    z0Ohm: 50,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

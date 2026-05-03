@@ -3,6 +3,7 @@ import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransfor
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateVswr } from "@/lib/calculators/vswr";
@@ -17,6 +18,11 @@ describe("calculator result contract", () => {
         epsEff: 1,
         physicalLength: 1,
         lengthUnit: "mm",
+      }),
+      calculateRfPower({
+        type: "W",
+        value: -1,
+        z0Ohm: 50,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

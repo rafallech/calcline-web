@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { calculatorDefaults } from "@/lib/calculatorDefaults";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
+import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -66,6 +67,19 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.z0Ohm).toBeCloseTo(53.450977402, 10);
     expect(result.value?.guidedWavelengthMm).toBeCloseTo(59.5501860919, 10);
     expect(result.value?.propagationDelayPsPerMm).toBeCloseTo(6.9968994895, 10);
+  });
+
+  it("keeps Coplanar Waveguide default result stable", () => {
+    const result = calculateCoplanarWaveguide(
+      calculatorDefaults.coplanarWaveguide,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.epsEff).toBeCloseTo(2.6281836945, 10);
+    expect(result.value?.z0Ohm).toBeCloseTo(54.8949702628, 10);
+    expect(result.value?.guidedWavelengthMm).toBeCloseTo(77.0515896265, 10);
   });
 
   it("keeps Wavelength default result stable", () => {

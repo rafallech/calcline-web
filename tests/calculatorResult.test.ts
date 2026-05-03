@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
+import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -77,6 +78,14 @@ describe("calculator result contract", () => {
         wMm: 0,
         bMm: 1,
         tMm: 0,
+        epsR: 1,
+        fGHz: 1,
+      }),
+      calculateCoplanarWaveguide({
+        mode: "cpw",
+        wMm: 0,
+        sMm: 1,
+        hMm: 1,
         epsR: 1,
         fGHz: 1,
       }),

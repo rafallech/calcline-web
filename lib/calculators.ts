@@ -8,6 +8,7 @@ export type CalculatorSlug =
   | "attenuators"
   | "wilkinson-divider"
   | "stripline"
+  | "coplanar-waveguide"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -200,6 +201,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/stripline.svg",
       alt: "Stripline calculator icon",
+    },
+  },
+  {
+    slug: "coplanar-waveguide",
+    title: "Coplanar Waveguide",
+    shortTitle: "CPW",
+    category: "transmission-lines",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate CPW impedance, effective permittivity, and guided wavelength.",
+    route: "/calculators/coplanar-waveguide",
+    icon: {
+      src: "/icons/calculators/coplanar-waveguide.svg",
+      alt: "Coplanar waveguide calculator icon",
     },
   },
   {

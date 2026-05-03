@@ -1,4 +1,5 @@
 import type { ImpedanceTransformDirection } from "@/lib/calculators/impedanceTransform";
+import type { CoplanarWaveguideMode } from "@/lib/calculators/coplanarWaveguide";
 import type { LoadImpedanceMinimumType } from "@/lib/calculators/loadImpedance";
 import type { MicrostripInput } from "@/lib/calculators/microstrip";
 import type { SingleStubConfiguration } from "@/lib/calculators/singleStub";
@@ -62,6 +63,14 @@ export const calculatorDefaults = {
     wMm: 1.2,
     bMm: 3.2,
     tMm: 0.035,
+    epsR: 4.4,
+    fGHz: 2.4,
+  },
+  coplanarWaveguide: {
+    mode: "cpw" as CoplanarWaveguideMode,
+    wMm: 1.2,
+    sMm: 0.2,
+    hMm: 1.6,
     epsR: 4.4,
     fGHz: 2.4,
   },

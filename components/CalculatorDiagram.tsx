@@ -72,6 +72,93 @@ export function MicrostripDiagram() {
   );
 }
 
+export function CoplanarWaveguideDiagram() {
+  return (
+    <DiagramFrame title="CPW cross-section sketch">
+      <svg
+        viewBox="0 0 720 280"
+        role="img"
+        aria-labelledby="coplanar-waveguide-title"
+        className="h-auto w-full"
+      >
+        <title id="coplanar-waveguide-title">
+          Coplanar waveguide cross section
+        </title>
+        <rect
+          x="120"
+          y="95"
+          width="480"
+          height="105"
+          fill="#dbeafe"
+          stroke="#334155"
+          strokeWidth="3"
+        />
+        <rect x="120" y="64" width="190" height="28" rx="4" fill="#64748b" />
+        <rect
+          x="340"
+          y="64"
+          width="40"
+          height="28"
+          rx="4"
+          fill="#f59e0b"
+          stroke="#92400e"
+          strokeWidth="3"
+        />
+        <rect x="410" y="64" width="190" height="28" rx="4" fill="#64748b" />
+        <rect x="100" y="210" width="520" height="20" rx="4" fill="#e2e8f0" />
+        <line x1="340" y1="42" x2="380" y2="42" stroke="#0891b2" strokeWidth="3" />
+        <line x1="340" y1="32" x2="340" y2="52" stroke="#0891b2" strokeWidth="3" />
+        <line x1="380" y1="32" x2="380" y2="52" stroke="#0891b2" strokeWidth="3" />
+        <text
+          x="360"
+          y="30"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px] font-semibold"
+        >
+          W
+        </text>
+        <line x1="310" y1="52" x2="340" y2="52" stroke="#0891b2" strokeWidth="3" />
+        <line x1="310" y1="44" x2="310" y2="60" stroke="#0891b2" strokeWidth="3" />
+        <line x1="340" y1="44" x2="340" y2="60" stroke="#0891b2" strokeWidth="3" />
+        <line x1="380" y1="52" x2="410" y2="52" stroke="#0891b2" strokeWidth="3" />
+        <line x1="380" y1="44" x2="380" y2="60" stroke="#0891b2" strokeWidth="3" />
+        <line x1="410" y1="44" x2="410" y2="60" stroke="#0891b2" strokeWidth="3" />
+        <text
+          x="325"
+          y="34"
+          textAnchor="middle"
+          className="fill-slate-700 text-[18px] font-semibold"
+        >
+          S
+        </text>
+        <text
+          x="395"
+          y="34"
+          textAnchor="middle"
+          className="fill-slate-700 text-[18px] font-semibold"
+        >
+          S
+        </text>
+        <line x1="635" y1="95" x2="635" y2="200" stroke="#0891b2" strokeWidth="3" />
+        <line x1="625" y1="95" x2="645" y2="95" stroke="#0891b2" strokeWidth="3" />
+        <line x1="625" y1="200" x2="645" y2="200" stroke="#0891b2" strokeWidth="3" />
+        <text x="658" y="153" className="fill-slate-700 text-[20px] font-semibold">
+          h
+        </text>
+        <text x="360" y="154" textAnchor="middle" className="fill-slate-700 text-[20px]">
+          substrate eps_r
+        </text>
+        <text x="210" y="58" textAnchor="middle" className="fill-slate-700 text-[18px]">
+          ground
+        </text>
+        <text x="510" y="58" textAnchor="middle" className="fill-slate-700 text-[18px]">
+          ground
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 export function PatchAntennaDiagram() {
   return (
     <DiagramFrame title="Patch antenna sketch">

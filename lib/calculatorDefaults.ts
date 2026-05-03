@@ -43,6 +43,11 @@ export const calculatorDefaults = {
     additionalLossesDb: 3,
     receiverSensitivityDbm: -90,
   },
+  patchAntenna: {
+    fGHz: 2.4,
+    epsR: 4.4,
+    hMm: 1.6,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

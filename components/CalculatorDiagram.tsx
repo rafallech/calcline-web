@@ -72,6 +72,135 @@ export function MicrostripDiagram() {
   );
 }
 
+export function PatchAntennaDiagram() {
+  return (
+    <DiagramFrame title="Patch antenna sketch">
+      <svg
+        viewBox="0 0 720 320"
+        role="img"
+        aria-labelledby="patch-antenna-title"
+        className="h-auto w-full"
+      >
+        <title id="patch-antenna-title">
+          Rectangular microstrip patch antenna dimensions
+        </title>
+        <rect
+          x="180"
+          y="55"
+          width="300"
+          height="150"
+          rx="8"
+          fill="#f59e0b"
+          stroke="#92400e"
+          strokeWidth="4"
+        />
+        <rect
+          x="130"
+          y="215"
+          width="420"
+          height="45"
+          fill="#dbeafe"
+          stroke="#334155"
+          strokeWidth="3"
+        />
+        <rect x="110" y="270" width="460" height="24" rx="4" fill="#64748b" />
+        <line
+          x1="180"
+          y1="38"
+          x2="480"
+          y2="38"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <line
+          x1="180"
+          y1="28"
+          x2="180"
+          y2="48"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <line
+          x1="480"
+          y1="28"
+          x2="480"
+          y2="48"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <text
+          x="330"
+          y="28"
+          textAnchor="middle"
+          className="fill-slate-700 text-[22px] font-semibold"
+        >
+          W
+        </text>
+        <line
+          x1="505"
+          y1="55"
+          x2="505"
+          y2="205"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <line
+          x1="495"
+          y1="55"
+          x2="515"
+          y2="55"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <line
+          x1="495"
+          y1="205"
+          x2="515"
+          y2="205"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <text x="528" y="137" className="fill-slate-700 text-[22px] font-semibold">
+          L
+        </text>
+        <line
+          x1="585"
+          y1="215"
+          x2="585"
+          y2="260"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <line
+          x1="575"
+          y1="215"
+          x2="595"
+          y2="215"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <line
+          x1="575"
+          y1="260"
+          x2="595"
+          y2="260"
+          stroke="#0891b2"
+          strokeWidth="3"
+        />
+        <text x="608" y="244" className="fill-slate-700 text-[22px] font-semibold">
+          h
+        </text>
+        <text x="340" y="243" textAnchor="middle" className="fill-slate-700 text-[20px]">
+          substrate eps_r
+        </text>
+        <text x="340" y="308" textAnchor="middle" className="fill-slate-700 text-[20px]">
+          ground plane
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 type SingleStubDiagramProps = {
   configuration: "openSeries" | "shortSeries" | "openShunt" | "shortShunt";
 };

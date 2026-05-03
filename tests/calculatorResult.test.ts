@@ -4,6 +4,7 @@ import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
@@ -53,6 +54,11 @@ describe("calculator result contract", () => {
         rxCableLossDb: 0,
         additionalLossesDb: 0,
         receiverSensitivityDbm: -100,
+      }),
+      calculatePatchAntenna({
+        fGHz: 0,
+        epsR: 4.4,
+        hMm: 1.6,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

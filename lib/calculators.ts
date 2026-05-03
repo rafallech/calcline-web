@@ -4,6 +4,7 @@ export type CalculatorSlug =
   | "quarter-wave-transformer"
   | "s-parameters"
   | "link-budget"
+  | "patch-antenna"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -89,6 +90,19 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/link-budget.svg",
       alt: "Link budget calculator icon",
+    },
+  },
+  {
+    slug: "patch-antenna",
+    title: "Microstrip Patch Antenna",
+    shortTitle: "Patch Antenna",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate rectangular microstrip patch dimensions from resonant frequency, substrate permittivity, and height.",
+    route: "/calculators/patch-antenna",
+    icon: {
+      src: "/icons/calculators/patch-antenna.svg",
+      alt: "Microstrip patch antenna calculator icon",
     },
   },
   {

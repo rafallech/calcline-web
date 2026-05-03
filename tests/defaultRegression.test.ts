@@ -5,6 +5,7 @@ import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
@@ -89,6 +90,21 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.fsplDb).toBeCloseTo(114.0314081428, 10);
     expect(result.value?.receivedPowerDbm).toBeCloseTo(-68.0314081428, 10);
     expect(result.value?.linkMarginDb).toBeCloseTo(21.9685918572, 10);
+  });
+
+  it("keeps Patch Antenna default result stable", () => {
+    const result = calculatePatchAntenna(calculatorDefaults.patchAntenna);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([
+      "Patch dimensions are a design approximation; tune with EM simulation or measurement.",
+    ]);
+    expect(result.value?.wMm).toBeCloseTo(38.0099749575, 10);
+    expect(result.value?.epsEff).toBeCloseTo(4.0856764443, 10);
+    expect(result.value?.deltaLMm).toBeCloseTo(0.7388121658, 10);
+    expect(result.value?.leffMm).toBeCloseTo(30.8992174161, 10);
+    expect(result.value?.lMm).toBeCloseTo(29.4215930844, 10);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

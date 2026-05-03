@@ -8,6 +8,7 @@ import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTr
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
+import { calculateSParameters } from "@/lib/calculators/sParameters";
 import { calculateVswr } from "@/lib/calculators/vswr";
 import { calculateWavelength } from "@/lib/calculators/wavelength";
 import type { Complex } from "@/lib/math/complex";
@@ -56,6 +57,25 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.lambda0M).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
+  });
+
+  it("keeps S-parameter default result stable", () => {
+    const result = calculateSParameters(calculatorDefaults.sParameters);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.s11Magnitude).toBeCloseTo(0.1, 12);
+    expect(result.value?.s11Db).toBeCloseTo(-20, 12);
+    expect(result.value?.gamma).toEqual({ re: 0.1, im: 0 });
+    expect(result.value?.returnLossDb).toBeCloseTo(20, 12);
+    expect(result.value?.vswr).toBeCloseTo(1.2222222222, 10);
+    expect(result.value?.reflectedPowerPercent).toBeCloseTo(1, 12);
+    expect(result.value?.mismatchLossDb).toBeCloseTo(0.043648054, 9);
+    expect(result.value?.s21Linear).toBeCloseTo(0.7079457844, 10);
+    expect(result.value?.s21Db).toBeCloseTo(-3, 12);
+    expect(result.value?.transferKind).toBe("insertionLoss");
+    expect(result.value?.transferDb).toBeCloseTo(3, 12);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

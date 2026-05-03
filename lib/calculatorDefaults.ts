@@ -22,6 +22,14 @@ export const calculatorDefaults = {
     fGHz: 2.4,
     epsEff: 1,
   },
+  sParameters: {
+    s11Format: "magnitude",
+    s11Value: 0.1,
+    s11AngleDeg: 0,
+    s21Format: "dB",
+    s21Value: -3,
+    z0Ohm: 50,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

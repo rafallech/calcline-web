@@ -7,6 +7,7 @@ import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTr
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
+import { calculateSParameters } from "@/lib/calculators/sParameters";
 import { calculateVswr } from "@/lib/calculators/vswr";
 import { calculateWavelength } from "@/lib/calculators/wavelength";
 
@@ -30,6 +31,14 @@ describe("calculator result contract", () => {
         rLOhm: 50,
         fGHz: 1,
         epsEff: 1,
+      }),
+      calculateSParameters({
+        s11Format: "magnitude",
+        s11Value: 1,
+        s11AngleDeg: 0,
+        s21Format: "magnitude",
+        s21Value: 1,
+        z0Ohm: 50,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

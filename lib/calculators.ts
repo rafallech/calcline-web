@@ -2,6 +2,7 @@ export type CalculatorSlug =
   | "wavelength"
   | "rf-power"
   | "quarter-wave-transformer"
+  | "s-parameters"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -61,6 +62,19 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/quarter-wave-transformer.svg",
       alt: "Quarter-wave transformer calculator icon",
+    },
+  },
+  {
+    slug: "s-parameters",
+    title: "S-parameter Converter",
+    shortTitle: "S-parameters",
+    sourceScreen: "New calculator",
+    description:
+      "Convert S11 and S21 into reflection, mismatch, VSWR, return loss, and gain metrics.",
+    route: "/calculators/s-parameters",
+    icon: {
+      src: "/icons/calculators/s-parameters.svg",
+      alt: "S-parameter converter calculator icon",
     },
   },
   {

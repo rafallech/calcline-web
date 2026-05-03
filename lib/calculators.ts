@@ -11,6 +11,7 @@ export type CalculatorSlug =
   | "wilkinson-divider"
   | "stripline"
   | "coplanar-waveguide"
+  | "microstrip-loss"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -245,6 +246,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/coplanar-waveguide.svg",
       alt: "Coplanar waveguide calculator icon",
+    },
+  },
+  {
+    slug: "microstrip-loss",
+    title: "Microstrip Loss",
+    shortTitle: "Microstrip Loss",
+    category: "transmission-lines",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate microstrip line loss from known attenuation or approximate conductor and dielectric terms.",
+    route: "/calculators/microstrip-loss",
+    icon: {
+      src: "/icons/calculators/microstrip-loss.svg",
+      alt: "Microstrip loss calculator icon",
     },
   },
   {

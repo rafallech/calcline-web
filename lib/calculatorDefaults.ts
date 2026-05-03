@@ -1,6 +1,7 @@
 import type { ImpedanceTransformDirection } from "@/lib/calculators/impedanceTransform";
 import type { CoplanarWaveguideMode } from "@/lib/calculators/coplanarWaveguide";
 import type { LoadImpedanceMinimumType } from "@/lib/calculators/loadImpedance";
+import type { MicrostripLossMode } from "@/lib/calculators/microstripLoss";
 import type { MicrostripInput } from "@/lib/calculators/microstrip";
 import type { ReceiverNoiseBandwidthUnit } from "@/lib/calculators/receiverNoise";
 import type { SingleStubConfiguration } from "@/lib/calculators/singleStub";
@@ -107,6 +108,19 @@ export const calculatorDefaults = {
     hMm: 1.6,
     epsR: 4.4,
     fGHz: 2.4,
+  },
+  microstripLoss: {
+    mode: "simplified" as MicrostripLossMode,
+    attenuationDbPerM: 0.8,
+    frequencyGHz: 10,
+    wMm: 2,
+    hMm: 0.8,
+    epsR: 3.5,
+    epsEff: 2.7,
+    tanDelta: 0.002,
+    conductivitySPerM: 58_000_000,
+    copperThicknessUm: 35,
+    lineLengthM: 0.25,
   },
   waveguide: {
     aMm: 22.86,

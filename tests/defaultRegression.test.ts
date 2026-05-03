@@ -7,6 +7,7 @@ import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculateMicrostripLoss } from "@/lib/calculators/microstripLoss";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
@@ -82,6 +83,22 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.epsEff).toBeCloseTo(2.6281836945, 10);
     expect(result.value?.z0Ohm).toBeCloseTo(54.8949702628, 10);
     expect(result.value?.guidedWavelengthMm).toBeCloseTo(77.0515896265, 10);
+  });
+
+  it("keeps Microstrip Loss default result stable", () => {
+    const result = calculateMicrostripLoss({
+      mode: calculatorDefaults.microstripLoss.mode,
+      attenuationDbPerM: calculatorDefaults.microstripLoss.attenuationDbPerM,
+      lineLengthM: calculatorDefaults.microstripLoss.lineLengthM,
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([
+      "Microstrip loss is an approximate design estimate; verify critical designs with EM simulation or measurement.",
+    ]);
+    expect(result.value?.totalLossDb).toBeCloseTo(0.2, 12);
+    expect(result.value?.lossPerMeterDb).toBeCloseTo(0.8, 12);
   });
 
   it("keeps Wavelength default result stable", () => {

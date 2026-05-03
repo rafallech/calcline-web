@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Microstrip loss calculator icon</title>
+  <desc id="desc">Microstrip line with a descending attenuation trace.</desc>
+  <rect width="96" height="96" rx="18" fill="#f8fafc"/>
+  <rect x="18" y="46" width="60" height="22" fill="#dbeafe" stroke="#334155" stroke-width="2"/>
+  <rect x="16" y="72" width="64" height="8" rx="3" fill="#64748b"/>
+  <rect x="28" y="34" width="40" height="8" rx="2" fill="#f59e0b" stroke="#92400e" stroke-width="2"/>
+  <path d="M20 24c12 0 12 16 24 16s12-16 24-16" fill="none" stroke="#0891b2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M22 18h52" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M72 18l-7-5M72 18l-7 5" stroke="#0f172a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="48" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="#334155">dB/m</text>
+</svg>

@@ -6,6 +6,7 @@ import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculateMicrostripLoss } from "@/lib/calculators/microstripLoss";
 import { calculatePatchAntenna } from "@/lib/calculators/patchAntenna";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateReceiverNoise } from "@/lib/calculators/receiverNoise";
@@ -102,6 +103,11 @@ describe("calculator result contract", () => {
         hMm: 1,
         epsR: 1,
         fGHz: 1,
+      }),
+      calculateMicrostripLoss({
+        mode: "simplified",
+        attenuationDbPerM: -1,
+        lineLengthM: 1,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

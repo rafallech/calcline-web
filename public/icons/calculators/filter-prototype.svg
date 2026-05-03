@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Microwave filter prototype calculator icon</title>
+  <desc id="desc">Low-pass ladder filter with inductors and capacitors.</desc>
+  <rect width="96" height="96" rx="18" fill="#f8fafc"/>
+  <path d="M12 40h10c3-10 9-10 12 0s9 10 12 0 9-10 12 0h26" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M62 40v18M54 58h16M56 64h12M59 70h6" stroke="#0891b2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M20 72h56" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+  <text x="48" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="700" fill="#334155">LPF</text>
+</svg>

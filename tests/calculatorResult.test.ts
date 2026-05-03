@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
+import { calculateFilterPrototype } from "@/lib/calculators/filterPrototype";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -84,6 +85,11 @@ describe("calculator result contract", () => {
         z0Ohm: 0,
         fGHz: 1,
         epsEff: 1,
+      }),
+      calculateFilterPrototype({
+        order: 0,
+        cutoffFrequencyMHz: 100,
+        z0Ohm: 50,
       }),
       calculatePatchAntenna({
         fGHz: 0,

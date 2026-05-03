@@ -3,6 +3,7 @@ import { calculatorDefaults } from "@/lib/calculatorDefaults";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
+import { calculateFilterPrototype } from "@/lib/calculators/filterPrototype";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -240,6 +241,27 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
     expect(result.value?.idealSplitDb).toBeCloseTo(-3.0102999566, 10);
     expect(result.value?.phaseRelationDeg).toBe(90);
+  });
+
+  it("keeps Microwave Filter Prototype default result stable", () => {
+    const result = calculateFilterPrototype(calculatorDefaults.filterPrototype);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.gValues[0]).toBe(1);
+    expect(result.value?.gValues[1]).toBeCloseTo(1, 12);
+    expect(result.value?.gValues[2]).toBeCloseTo(2, 12);
+    expect(result.value?.gValues[3]).toBeCloseTo(1, 12);
+    expect(result.value?.gValues[4]).toBe(1);
+    expect(result.value?.elements.map((element) => element.label)).toEqual([
+      "L1",
+      "C2",
+      "L3",
+    ]);
+    expect(result.value?.elements[0]?.value).toBeCloseTo(79.57747155e-9, 16);
+    expect(result.value?.elements[1]?.value).toBeCloseTo(63.66197724e-12, 16);
+    expect(result.value?.elements[2]?.value).toBeCloseTo(79.57747155e-9, 16);
   });
 
   it("keeps Patch Antenna default result stable", () => {

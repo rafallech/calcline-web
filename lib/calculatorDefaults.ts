@@ -79,6 +79,11 @@ export const calculatorDefaults = {
       },
     ],
   },
+  filterPrototype: {
+    order: 3,
+    cutoffFrequencyMHz: 100,
+    z0Ohm: 50,
+  },
   patchAntenna: {
     fGHz: 2.4,
     epsR: 4.4,

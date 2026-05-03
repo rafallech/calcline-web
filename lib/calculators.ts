@@ -6,6 +6,7 @@ export type CalculatorSlug =
   | "link-budget"
   | "receiver-noise"
   | "rf-cascade"
+  | "filter-prototype"
   | "patch-antenna"
   | "attenuators"
   | "wilkinson-divider"
@@ -177,6 +178,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/rf-cascade.svg",
       alt: "RF cascade calculator icon",
+    },
+  },
+  {
+    slug: "filter-prototype",
+    title: "Microwave Filter Prototype",
+    shortTitle: "Filter Prototype",
+    category: "system-calculators",
+    sourceScreen: "New calculator",
+    description:
+      "Generate Butterworth low-pass prototype g-values and scaled L/C ladder elements.",
+    route: "/calculators/filter-prototype",
+    icon: {
+      src: "/icons/calculators/filter-prototype.svg",
+      alt: "Microwave filter prototype calculator icon",
     },
   },
   {

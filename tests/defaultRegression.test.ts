@@ -14,6 +14,7 @@ import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateSParameters } from "@/lib/calculators/sParameters";
 import { calculateVswr } from "@/lib/calculators/vswr";
 import { calculateWavelength } from "@/lib/calculators/wavelength";
+import { calculateWilkinsonDivider } from "@/lib/calculators/wilkinson";
 import type { Complex } from "@/lib/math/complex";
 
 describe("default-value calculator regressions", () => {
@@ -34,6 +35,24 @@ describe("default-value calculator regressions", () => {
     expect(result.value.resistors.rSeriesOhm).toBeCloseTo(37.35187703, 8);
     expect(result.value.resistors.rShuntInputOhm).toBeCloseTo(150.47602375, 8);
     expect(result.value.resistors.rShuntOutputOhm).toBeCloseTo(150.47602375, 8);
+  });
+
+  it("keeps Wilkinson Power Divider default result stable", () => {
+    const result = calculateWilkinsonDivider(
+      calculatorDefaults.wilkinsonDivider,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.quarterWaveLineImpedanceOhm).toBeCloseTo(
+      70.7106781187,
+      10,
+    );
+    expect(result.value?.isolationResistorOhm).toBeCloseTo(100, 12);
+    expect(result.value?.electricalLengthDeg).toBe(90);
+    expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
   });
 
   it("keeps Wavelength default result stable", () => {

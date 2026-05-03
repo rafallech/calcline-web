@@ -53,6 +53,11 @@ export const calculatorDefaults = {
     z0Ohm: 50,
     attenuationDb: 6,
   },
+  wilkinsonDivider: {
+    z0Ohm: 50,
+    fGHz: 2.4,
+    epsEff: 1,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

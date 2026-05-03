@@ -243,6 +243,109 @@ export function AttenuatorDiagram({ topology }: AttenuatorDiagramProps) {
   );
 }
 
+export function WilkinsonDividerDiagram() {
+  return (
+    <DiagramFrame title="Wilkinson divider sketch">
+      <svg
+        viewBox="0 0 720 320"
+        role="img"
+        aria-labelledby="wilkinson-divider-title"
+        className="h-auto w-full"
+      >
+        <title id="wilkinson-divider-title">
+          Two-way Wilkinson power divider circuit
+        </title>
+        <line
+          x1="90"
+          y1="160"
+          x2="230"
+          y2="160"
+          stroke="#0f172a"
+          strokeWidth="6"
+          strokeLinecap="round"
+        />
+        <path
+          d="M230 160 C300 160 330 75 430 75 L610 75"
+          fill="none"
+          stroke="#0891b2"
+          strokeWidth="7"
+          strokeLinecap="round"
+        />
+        <path
+          d="M230 160 C300 160 330 245 430 245 L610 245"
+          fill="none"
+          stroke="#0891b2"
+          strokeWidth="7"
+          strokeLinecap="round"
+        />
+        <circle cx="90" cy="160" r="10" fill="#0f172a" />
+        <circle cx="610" cy="75" r="10" fill="#0f172a" />
+        <circle cx="610" cy="245" r="10" fill="#0f172a" />
+        <line
+          x1="505"
+          y1="75"
+          x2="505"
+          y2="112"
+          stroke="#0f172a"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <Resistor x={505} y={160} label="Riso = 2 Z0" orientation="vertical" />
+        <line
+          x1="505"
+          y1="208"
+          x2="505"
+          y2="245"
+          stroke="#0f172a"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <text x="68" y="132" className="fill-slate-700 text-[21px]">
+          port 1
+        </text>
+        <text x="575" y="48" className="fill-slate-700 text-[21px]">
+          port 2
+        </text>
+        <text x="575" y="288" className="fill-slate-700 text-[21px]">
+          port 3
+        </text>
+        <text
+          x="380"
+          y="42"
+          textAnchor="middle"
+          className="fill-slate-700 text-[21px] font-semibold"
+        >
+          Zline = sqrt(2) Z0
+        </text>
+        <text
+          x="350"
+          y="112"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px]"
+        >
+          lambda/4
+        </text>
+        <text
+          x="350"
+          y="226"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px]"
+        >
+          lambda/4
+        </text>
+        <text
+          x="160"
+          y="192"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px]"
+        >
+          Z0
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 type ResistorProps = {
   x: number;
   y: number;

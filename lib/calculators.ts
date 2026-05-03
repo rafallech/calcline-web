@@ -6,6 +6,7 @@ export type CalculatorSlug =
   | "link-budget"
   | "patch-antenna"
   | "attenuators"
+  | "wilkinson-divider"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -170,6 +171,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/attenuators.svg",
       alt: "Resistive attenuator calculator icon",
+    },
+  },
+  {
+    slug: "wilkinson-divider",
+    title: "Wilkinson Power Divider",
+    shortTitle: "Wilkinson",
+    category: "passive-components",
+    sourceScreen: "New calculator",
+    description:
+      "Design an ideal 2-way equal split Wilkinson divider with quarter-wave branches and isolation resistor.",
+    route: "/calculators/wilkinson-divider",
+    icon: {
+      src: "/icons/calculators/wilkinson-divider.svg",
+      alt: "Wilkinson power divider calculator icon",
     },
   },
   {

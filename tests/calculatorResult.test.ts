@@ -13,6 +13,7 @@ import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateSParameters } from "@/lib/calculators/sParameters";
 import { calculateVswr } from "@/lib/calculators/vswr";
 import { calculateWavelength } from "@/lib/calculators/wavelength";
+import { calculateWilkinsonDivider } from "@/lib/calculators/wilkinson";
 
 describe("calculator result contract", () => {
   it("returns ok, value, errors, and warnings for validation failures", () => {
@@ -65,6 +66,11 @@ describe("calculator result contract", () => {
         fGHz: 0,
         epsR: 4.4,
         hMm: 1.6,
+      }),
+      calculateWilkinsonDivider({
+        z0Ohm: 0,
+        fGHz: 1,
+        epsEff: 1,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

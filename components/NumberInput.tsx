@@ -13,6 +13,7 @@ type NumberInputProps = {
   step?: number;
   placeholder?: string;
   disabled?: boolean;
+  description?: string;
 };
 
 export function NumberInput({
@@ -26,6 +27,7 @@ export function NumberInput({
   step = 1,
   placeholder,
   disabled = false,
+  description,
 }: NumberInputProps) {
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     onChange(event.target.value);
@@ -55,6 +57,9 @@ export function NumberInput({
           </span>
         ) : null}
       </div>
+      {description ? (
+        <p className="text-sm leading-6 text-slate-600">{description}</p>
+      ) : null}
     </div>
   );
 }

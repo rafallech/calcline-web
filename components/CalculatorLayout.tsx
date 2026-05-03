@@ -11,6 +11,9 @@ type CalculatorLayoutProps = {
   resultPanel: ReactNode;
   diagramPanel?: ReactNode;
   formulaPanel?: ReactNode;
+  backHref?: string;
+  backLabel?: string;
+  eyebrow?: string;
 };
 
 export function CalculatorLayout({
@@ -20,6 +23,9 @@ export function CalculatorLayout({
   resultPanel,
   diagramPanel,
   formulaPanel,
+  backHref = "/",
+  backLabel = "Back to calculators",
+  eyebrow = "Calculator",
 }: CalculatorLayoutProps) {
   const { mode } = useAppMode();
 
@@ -27,13 +33,13 @@ export function CalculatorLayout({
     <section className="space-y-6">
       <div>
         <Link
-          href="/"
+          href={backHref}
           className="text-sm font-medium text-cyan-800 transition hover:text-cyan-950"
         >
-          Back to calculators
+          {backLabel}
         </Link>
         <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-cyan-700">
-          Calculator
+          {eyebrow}
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl">
           {title}

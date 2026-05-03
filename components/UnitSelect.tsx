@@ -2,7 +2,7 @@
 
 import type { ChangeEvent } from "react";
 
-type UnitOption = {
+export type UnitOption = {
   value: string;
   label: string;
 };
@@ -14,6 +14,7 @@ type UnitSelectProps = {
   options: UnitOption[];
   onChange: (value: string) => void;
   disabled?: boolean;
+  description?: string;
 };
 
 export function UnitSelect({
@@ -23,6 +24,7 @@ export function UnitSelect({
   options,
   onChange,
   disabled = false,
+  description,
 }: UnitSelectProps) {
   function handleChange(event: ChangeEvent<HTMLSelectElement>) {
     onChange(event.target.value);
@@ -46,6 +48,9 @@ export function UnitSelect({
           </option>
         ))}
       </select>
+      {description ? (
+        <p className="text-sm leading-6 text-slate-600">{description}</p>
+      ) : null}
     </div>
   );
 }

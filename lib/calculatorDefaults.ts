@@ -4,6 +4,13 @@ import type { MicrostripInput } from "@/lib/calculators/microstrip";
 import type { SingleStubConfiguration } from "@/lib/calculators/singleStub";
 
 export const calculatorDefaults = {
+  wavelength: {
+    frequency: 2.4,
+    frequencyUnit: "GHz",
+    epsEff: 1,
+    physicalLength: 125,
+    lengthUnit: "mm",
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

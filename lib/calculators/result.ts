@@ -5,6 +5,26 @@ export type CalculatorCalculation<Result> = {
   warnings: string[];
 };
 
+export type CalculatorResultRow = {
+  label: string;
+  value: string | number;
+  unit?: string;
+  note?: string;
+};
+
+export type CalculatorResultSection = {
+  title: string;
+  description?: string;
+  rows: CalculatorResultRow[];
+};
+
+export type CalculatorResultSummary = {
+  title: string;
+  inputs: CalculatorResultRow[];
+  sections: CalculatorResultSection[];
+  warnings: string[];
+};
+
 export function calculationOk<Result>(
   value: Result,
   warnings: string[] = [],

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 96" role="img" aria-labelledby="title desc">
+  <title id="title">Wavelength and electrical length calculator icon</title>
+  <desc id="desc">A sine wave with dimension arrows representing wavelength.</desc>
+  <rect width="144" height="96" rx="8" fill="#ecfeff"/>
+  <path d="M12 48c15.5-33 31-33 46.5 0s31 33 46.5 0 18-30 27-20" fill="none" stroke="#0e7490" stroke-width="7" stroke-linecap="round"/>
+  <path d="M22 76h92" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+  <path d="M22 76l10-7v14zM114 76l-10-7v14z" fill="#334155"/>
+  <text x="68" y="91" fill="#334155" font-family="Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle">lambda</text>
+</svg>
+

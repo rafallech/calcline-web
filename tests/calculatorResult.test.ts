@@ -6,10 +6,18 @@ import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateVswr } from "@/lib/calculators/vswr";
+import { calculateWavelength } from "@/lib/calculators/wavelength";
 
 describe("calculator result contract", () => {
   it("returns ok, value, errors, and warnings for validation failures", () => {
     const invalidResults = [
+      calculateWavelength({
+        frequency: 0,
+        frequencyUnit: "GHz",
+        epsEff: 1,
+        physicalLength: 1,
+        lengthUnit: "mm",
+      }),
       calculateRectangularWaveguide({
         aMm: 0,
         bMm: 10,

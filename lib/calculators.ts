@@ -1,4 +1,5 @@
 export type CalculatorSlug =
+  | "wavelength"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -21,6 +22,19 @@ export type CalculatorInfo = {
 };
 
 export const calculators: CalculatorInfo[] = [
+  {
+    slug: "wavelength",
+    title: "Wavelength and Electrical Length",
+    shortTitle: "Wavelength",
+    sourceScreen: "New calculator",
+    description:
+      "Convert frequency, effective permittivity, and physical length into wavelength and electrical length.",
+    route: "/calculators/wavelength",
+    icon: {
+      src: "/icons/calculators/wavelength.svg",
+      alt: "Wavelength and electrical length calculator icon",
+    },
+  },
   {
     slug: "waveguide",
     title: "Rectangular Waveguide",

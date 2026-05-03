@@ -7,9 +7,23 @@ import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
 import { calculateVswr } from "@/lib/calculators/vswr";
+import { calculateWavelength } from "@/lib/calculators/wavelength";
 import type { Complex } from "@/lib/math/complex";
 
 describe("default-value calculator regressions", () => {
+  it("keeps Wavelength default result stable", () => {
+    const result = calculateWavelength(calculatorDefaults.wavelength);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.lambda0M).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.lengthInWavelengths).toBeCloseTo(1.0006922856, 10);
+    expect(result.value?.electricalLengthDeg).toBeCloseTo(360.2492228, 7);
+    expect(result.value?.electricalLengthRad).toBeCloseTo(6.2875350659, 10);
+  });
+
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {
     const result = calculateRectangularWaveguide(calculatorDefaults.waveguide);
 

@@ -1,11 +1,7 @@
-type ResultRow = {
-  label: string;
-  value: string;
-  unit?: string;
-};
+import type { CalculatorResultRow } from "@/lib/calculators/result";
 
 type ResultTableProps = {
-  rows: ResultRow[];
+  rows: CalculatorResultRow[];
   emptyMessage?: string;
 };
 
@@ -35,6 +31,11 @@ export function ResultTable({
                 {row.unit ? (
                   <span className="ml-1 font-normal text-slate-500">
                     {row.unit}
+                  </span>
+                ) : null}
+                {row.note ? (
+                  <span className="mt-1 block text-xs font-normal leading-5 text-slate-500">
+                    {row.note}
                   </span>
                 ) : null}
               </td>

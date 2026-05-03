@@ -6,6 +6,7 @@ import { RectangularWaveguideDiagram } from "@/components/CalculatorDiagram";
 import { CopyResultsButton } from "@/components/CopyResultsButton";
 import { FormulaBlock } from "@/components/FormulaBlock";
 import { NumberInput } from "@/components/NumberInput";
+import { PresetSelect } from "@/components/PresetSelect";
 import { ResetButton } from "@/components/ResetButton";
 import { ResultTable } from "@/components/ResultTable";
 import { ValidationMessages } from "@/components/ValidationMessages";
@@ -187,35 +188,22 @@ function WaveguideInputPanel({
         </div>
       </div>
 
-      <div className="space-y-2">
-        <label
-          htmlFor="waveguide-preset"
-          className="block text-sm font-medium text-slate-800"
-        >
-          Waveguide preset
-        </label>
-        <select
-          id="waveguide-preset"
-          value={selectedPresetId}
-          onChange={(event) => onPresetChange(event.target.value)}
-          className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100"
-        >
-          <option value={CUSTOM_PRESET_ID}>Custom</option>
-          {waveguidePresets.map((preset) => (
-            <option key={preset.id} value={preset.id}>
-              {preset.label}
-            </option>
-          ))}
-        </select>
-        <p className="text-sm leading-6 text-slate-600">
-          {selectedPreset
+      <PresetSelect
+        id="waveguide-preset"
+        label="Waveguide preset"
+        value={selectedPresetId}
+        options={waveguidePresets}
+        onChange={onPresetChange}
+        customValue={CUSTOM_PRESET_ID}
+        description={
+          selectedPreset
             ? `${selectedPreset.description} a = ${formatNumber(
                 selectedPreset.values.aMm,
                 3,
               )} mm, b = ${formatNumber(selectedPreset.values.bMm, 3)} mm.`
-            : "Custom dimensions: set a and b manually."}
-        </p>
-      </div>
+            : "Custom dimensions: set a and b manually."
+        }
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <NumberInput

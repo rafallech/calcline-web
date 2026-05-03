@@ -6,6 +6,7 @@ import { MicrostripDiagram } from "@/components/CalculatorDiagram";
 import { CopyResultsButton } from "@/components/CopyResultsButton";
 import { FormulaBlock } from "@/components/FormulaBlock";
 import { NumberInput } from "@/components/NumberInput";
+import { PresetSelect } from "@/components/PresetSelect";
 import { ResetButton } from "@/components/ResetButton";
 import { ResultTable } from "@/components/ResultTable";
 import { ValidationMessages } from "@/components/ValidationMessages";
@@ -235,40 +236,23 @@ function MicrostripInputPanel({
         </button>
       </div>
 
-      <div className="space-y-2">
-        <label
-          htmlFor="microstrip-material-preset"
-          className="block text-sm font-medium text-slate-800"
-        >
-          Material preset
-        </label>
-        <select
-          id="microstrip-material-preset"
-          value={selectedPresetId}
-          onChange={(event) => onPresetChange(event.target.value)}
-          className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100"
-        >
-          <option value={CUSTOM_PRESET_ID}>Custom</option>
-          {materialPresets.map((preset) => (
-            <option key={preset.id} value={preset.id}>
-              {preset.label}
-            </option>
-          ))}
-        </select>
-        <p className="text-sm leading-6 text-slate-600">
-          {selectedPreset
+      <PresetSelect
+        id="microstrip-material-preset"
+        label="Material preset"
+        value={selectedPresetId}
+        options={materialPresets}
+        onChange={onPresetChange}
+        customValue={CUSTOM_PRESET_ID}
+        description={
+          selectedPreset
             ? `${selectedPreset.description} eps_r = ${formatNumber(
                 selectedPreset.values.epsR,
                 3,
               )}.`
-            : "Custom material: set eps_r manually."}
-        </p>
-        {selectedPreset?.sourceNote ? (
-          <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-900">
-            {selectedPreset.sourceNote}
-          </p>
-        ) : null}
-      </div>
+            : "Custom material: set eps_r manually."
+        }
+        warning={selectedPreset?.sourceNote}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <NumberInput

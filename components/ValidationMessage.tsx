@@ -1,4 +1,4 @@
-type ValidationTone = "error" | "warning" | "info";
+export type ValidationTone = "error" | "warning" | "info";
 
 type ValidationMessageProps = {
   tone?: ValidationTone;

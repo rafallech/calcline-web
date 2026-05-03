@@ -1,14 +1,21 @@
 import { describe, expect, it } from "vitest";
 import {
+  commonEffectivePermittivityPresets,
+  commonFrequencyPresets,
+  commonImpedancePresets,
   materialPresets,
   waveguidePresets,
 } from "@/lib/data/presets";
 
 describe("preset data", () => {
   it("uses unique ids across all presets", () => {
-    const ids = [...waveguidePresets, ...materialPresets].map(
-      (preset) => preset.id,
-    );
+    const ids = [
+      ...waveguidePresets,
+      ...materialPresets,
+      ...commonImpedancePresets,
+      ...commonFrequencyPresets,
+      ...commonEffectivePermittivityPresets,
+    ].map((preset) => preset.id);
 
     expect(new Set(ids).size).toBe(ids.length);
   });
@@ -39,6 +46,65 @@ describe("preset data", () => {
   it("defines material eps_r values greater than or equal to 1", () => {
     for (const preset of materialPresets) {
       expect(preset.values.epsR).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it("defines common impedance preset values", () => {
+    expect(
+      commonImpedancePresets.map((preset) => ({
+        id: preset.id,
+        label: preset.label,
+        ohms: preset.values.ohms,
+      })),
+    ).toEqual([
+      { id: "impedance-50", label: "50 Ohm", ohms: 50 },
+      { id: "impedance-75", label: "75 Ohm", ohms: 75 },
+      { id: "impedance-100", label: "100 Ohm", ohms: 100 },
+    ]);
+
+    for (const preset of commonImpedancePresets) {
+      expect(preset.values.ohms).toBeGreaterThan(0);
+    }
+  });
+
+  it("defines common frequency preset values in GHz", () => {
+    expect(
+      commonFrequencyPresets.map((preset) => ({
+        id: preset.id,
+        label: preset.label,
+        frequencyGHz: preset.values.frequencyGHz,
+      })),
+    ).toEqual([
+      { id: "frequency-433mhz", label: "433 MHz", frequencyGHz: 0.433 },
+      { id: "frequency-868mhz", label: "868 MHz", frequencyGHz: 0.868 },
+      { id: "frequency-915mhz", label: "915 MHz", frequencyGHz: 0.915 },
+      { id: "frequency-1-8ghz", label: "1.8 GHz", frequencyGHz: 1.8 },
+      { id: "frequency-2-4ghz", label: "2.4 GHz", frequencyGHz: 2.4 },
+      { id: "frequency-5-8ghz", label: "5.8 GHz", frequencyGHz: 5.8 },
+      { id: "frequency-10ghz", label: "10 GHz", frequencyGHz: 10 },
+    ]);
+
+    for (const preset of commonFrequencyPresets) {
+      expect(preset.values.frequencyGHz).toBeGreaterThan(0);
+    }
+  });
+
+  it("defines common effective permittivity preset values", () => {
+    expect(
+      commonEffectivePermittivityPresets.map((preset) => ({
+        id: preset.id,
+        label: preset.label,
+        epsEff: preset.values.epsEff,
+      })),
+    ).toEqual([
+      { id: "eps-eff-1", label: "eps_eff 1", epsEff: 1 },
+      { id: "eps-eff-2-2", label: "eps_eff 2.2", epsEff: 2.2 },
+      { id: "eps-eff-3", label: "eps_eff 3", epsEff: 3 },
+      { id: "eps-eff-4", label: "eps_eff 4", epsEff: 4 },
+    ]);
+
+    for (const preset of commonEffectivePermittivityPresets) {
+      expect(preset.values.epsEff).toBeGreaterThanOrEqual(1);
     }
   });
 
@@ -86,7 +152,13 @@ describe("preset data", () => {
   });
 
   it("defines a label for every preset", () => {
-    for (const preset of [...waveguidePresets, ...materialPresets]) {
+    for (const preset of [
+      ...waveguidePresets,
+      ...materialPresets,
+      ...commonImpedancePresets,
+      ...commonFrequencyPresets,
+      ...commonEffectivePermittivityPresets,
+    ]) {
       expect(preset.label.trim().length).toBeGreaterThan(0);
     }
   });

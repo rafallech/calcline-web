@@ -19,6 +19,33 @@ export type MaterialPreset = {
   sourceNote?: string;
 };
 
+export type CommonImpedancePreset = {
+  id: string;
+  label: string;
+  description: string;
+  values: {
+    ohms: number;
+  };
+};
+
+export type CommonFrequencyPreset = {
+  id: string;
+  label: string;
+  description: string;
+  values: {
+    frequencyGHz: number;
+  };
+};
+
+export type CommonEffectivePermittivityPreset = {
+  id: string;
+  label: string;
+  description: string;
+  values: {
+    epsEff: number;
+  };
+};
+
 export const waveguidePresets: WaveguidePreset[] = [
   {
     id: "wr-90",
@@ -102,3 +129,125 @@ export const materialPresets: MaterialPreset[] = [
     },
   },
 ];
+
+export const commonImpedancePresets: CommonImpedancePreset[] = [
+  {
+    id: "impedance-50",
+    label: "50 Ohm",
+    description: "Common RF system impedance.",
+    values: {
+      ohms: 50,
+    },
+  },
+  {
+    id: "impedance-75",
+    label: "75 Ohm",
+    description: "Common coaxial and video system impedance.",
+    values: {
+      ohms: 75,
+    },
+  },
+  {
+    id: "impedance-100",
+    label: "100 Ohm",
+    description: "Common differential and matching reference impedance.",
+    values: {
+      ohms: 100,
+    },
+  },
+];
+
+export const commonFrequencyPresets: CommonFrequencyPreset[] = [
+  {
+    id: "frequency-433mhz",
+    label: "433 MHz",
+    description: "Common ISM and SRD frequency.",
+    values: {
+      frequencyGHz: 0.433,
+    },
+  },
+  {
+    id: "frequency-868mhz",
+    label: "868 MHz",
+    description: "Common European ISM and SRD frequency.",
+    values: {
+      frequencyGHz: 0.868,
+    },
+  },
+  {
+    id: "frequency-915mhz",
+    label: "915 MHz",
+    description: "Common ISM frequency.",
+    values: {
+      frequencyGHz: 0.915,
+    },
+  },
+  {
+    id: "frequency-1-8ghz",
+    label: "1.8 GHz",
+    description: "Common cellular band frequency.",
+    values: {
+      frequencyGHz: 1.8,
+    },
+  },
+  {
+    id: "frequency-2-4ghz",
+    label: "2.4 GHz",
+    description: "Common ISM, Wi-Fi, and Bluetooth frequency.",
+    values: {
+      frequencyGHz: 2.4,
+    },
+  },
+  {
+    id: "frequency-5-8ghz",
+    label: "5.8 GHz",
+    description: "Common ISM and Wi-Fi frequency.",
+    values: {
+      frequencyGHz: 5.8,
+    },
+  },
+  {
+    id: "frequency-10ghz",
+    label: "10 GHz",
+    description: "Common microwave reference frequency.",
+    values: {
+      frequencyGHz: 10,
+    },
+  },
+];
+
+export const commonEffectivePermittivityPresets: CommonEffectivePermittivityPreset[] =
+  [
+    {
+      id: "eps-eff-1",
+      label: "eps_eff 1",
+      description: "Air or free-space propagation.",
+      values: {
+        epsEff: 1,
+      },
+    },
+    {
+      id: "eps-eff-2-2",
+      label: "eps_eff 2.2",
+      description: "Common low-loss RF substrate effective value.",
+      values: {
+        epsEff: 2.2,
+      },
+    },
+    {
+      id: "eps-eff-3",
+      label: "eps_eff 3",
+      description: "Mid-range quasi-TEM effective permittivity.",
+      values: {
+        epsEff: 3,
+      },
+    },
+    {
+      id: "eps-eff-4",
+      label: "eps_eff 4",
+      description: "Higher effective permittivity design value.",
+      values: {
+        epsEff: 4,
+      },
+    },
+  ];

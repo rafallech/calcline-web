@@ -5,6 +5,7 @@ import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { CopyResultsButton } from "@/components/CopyResultsButton";
 import { FormulaBlock } from "@/components/FormulaBlock";
 import { NumberInput } from "@/components/NumberInput";
+import { PresetSelect } from "@/components/PresetSelect";
 import { ResetButton } from "@/components/ResetButton";
 import { ResultTable } from "@/components/ResultTable";
 import { ValidationMessages } from "@/components/ValidationMessages";
@@ -15,6 +16,11 @@ import {
   calculateQuarterWaveTransformer,
   type QuarterWaveTransformerCalculation,
 } from "@/lib/calculators/quarterWaveTransformer";
+import {
+  commonEffectivePermittivityPresets,
+  commonFrequencyPresets,
+  commonImpedancePresets,
+} from "@/lib/data/presets";
 import { formatNumber } from "@/lib/math/format";
 import { formatResultsText } from "@/lib/resultText";
 
@@ -28,6 +34,8 @@ type QuarterWaveTransformerFormState = {
   fGHz: string;
   epsEff: string;
 };
+
+const CUSTOM_PRESET_ID = "custom";
 
 const defaultFormState: QuarterWaveTransformerFormState = {
   z0Ohm: defaultNumber(calculatorDefaults.quarterWaveTransformer.z0Ohm),
@@ -73,6 +81,35 @@ export function QuarterWaveTransformerCalculator({
     resetStoredForm();
   }
 
+  function applyImpedancePreset(
+    field: "z0Ohm" | "rLOhm",
+    presetId: string,
+  ) {
+    const preset = commonImpedancePresets.find((item) => item.id === presetId);
+
+    if (preset) {
+      updateField(field, String(preset.values.ohms));
+    }
+  }
+
+  function applyFrequencyPreset(presetId: string) {
+    const preset = commonFrequencyPresets.find((item) => item.id === presetId);
+
+    if (preset) {
+      updateField("fGHz", String(preset.values.frequencyGHz));
+    }
+  }
+
+  function applyEpsEffPreset(presetId: string) {
+    const preset = commonEffectivePermittivityPresets.find(
+      (item) => item.id === presetId,
+    );
+
+    if (preset) {
+      updateField("epsEff", String(preset.values.epsEff));
+    }
+  }
+
   return (
     <CalculatorLayout
       title={calculator.title}
@@ -82,6 +119,9 @@ export function QuarterWaveTransformerCalculator({
           form={form}
           calculation={calculation}
           onChange={updateField}
+          onImpedancePresetChange={applyImpedancePreset}
+          onFrequencyPresetChange={applyFrequencyPreset}
+          onEpsEffPresetChange={applyEpsEffPreset}
           onReset={resetForm}
         />
       }
@@ -108,6 +148,12 @@ type QuarterWaveTransformerInputPanelProps = {
     field: keyof QuarterWaveTransformerFormState,
     value: string,
   ) => void;
+  onImpedancePresetChange: (
+    field: "z0Ohm" | "rLOhm",
+    presetId: string,
+  ) => void;
+  onFrequencyPresetChange: (presetId: string) => void;
+  onEpsEffPresetChange: (presetId: string) => void;
   onReset: () => void;
 };
 
@@ -115,8 +161,16 @@ function QuarterWaveTransformerInputPanel({
   form,
   calculation,
   onChange,
+  onImpedancePresetChange,
+  onFrequencyPresetChange,
+  onEpsEffPresetChange,
   onReset,
 }: QuarterWaveTransformerInputPanelProps) {
+  const selectedZ0PresetId = findCommonImpedancePresetId(form.z0Ohm);
+  const selectedRlPresetId = findCommonImpedancePresetId(form.rLOhm);
+  const selectedFrequencyPresetId = findCommonFrequencyPresetId(form.fGHz);
+  const selectedEpsEffPresetId = findCommonEpsEffPresetId(form.epsEff);
+
   return (
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-4">
@@ -127,6 +181,45 @@ function QuarterWaveTransformerInputPanel({
           </p>
         </div>
         <ResetButton onClick={onReset} />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <PresetSelect
+          id="quarter-wave-z0-preset"
+          label="Z0 preset"
+          value={selectedZ0PresetId}
+          options={commonImpedancePresets}
+          onChange={(presetId) => onImpedancePresetChange("z0Ohm", presetId)}
+          customValue={CUSTOM_PRESET_ID}
+          description="Pick a common system impedance or keep a custom value."
+        />
+        <PresetSelect
+          id="quarter-wave-rl-preset"
+          label="RL preset"
+          value={selectedRlPresetId}
+          options={commonImpedancePresets}
+          onChange={(presetId) => onImpedancePresetChange("rLOhm", presetId)}
+          customValue={CUSTOM_PRESET_ID}
+          description="Pick a common load resistance or keep a custom value."
+        />
+        <PresetSelect
+          id="quarter-wave-frequency-preset"
+          label="Frequency preset"
+          value={selectedFrequencyPresetId}
+          options={commonFrequencyPresets}
+          onChange={onFrequencyPresetChange}
+          customValue={CUSTOM_PRESET_ID}
+          description="Pick a common RF frequency or keep a custom value."
+        />
+        <PresetSelect
+          id="quarter-wave-eps-eff-preset"
+          label="eps_eff preset"
+          value={selectedEpsEffPresetId}
+          options={commonEffectivePermittivityPresets}
+          onChange={onEpsEffPresetChange}
+          customValue={CUSTOM_PRESET_ID}
+          description="Pick a common effective permittivity or keep a custom value."
+        />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -295,3 +388,29 @@ function parseNumericField(value: string): number {
   return Number(value);
 }
 
+function findCommonImpedancePresetId(value: string): string {
+  const numericValue = Number(value);
+  const preset = commonImpedancePresets.find(
+    (item) => item.values.ohms === numericValue,
+  );
+
+  return preset?.id ?? CUSTOM_PRESET_ID;
+}
+
+function findCommonFrequencyPresetId(value: string): string {
+  const numericValue = Number(value);
+  const preset = commonFrequencyPresets.find(
+    (item) => item.values.frequencyGHz === numericValue,
+  );
+
+  return preset?.id ?? CUSTOM_PRESET_ID;
+}
+
+function findCommonEpsEffPresetId(value: string): string {
+  const numericValue = Number(value);
+  const preset = commonEffectivePermittivityPresets.find(
+    (item) => item.values.epsEff === numericValue,
+  );
+
+  return preset?.id ?? CUSTOM_PRESET_ID;
+}

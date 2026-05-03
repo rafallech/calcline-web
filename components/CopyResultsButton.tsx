@@ -26,14 +26,43 @@ export function CopyResultsButton({
     window.setTimeout(() => setCopied(false), 1600);
   }
 
+  function exportReport() {
+    if (!text) {
+      return;
+    }
+
+    const blob = new Blob([text], {
+      type: "text/plain;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "calcline-report.txt";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
   return (
-    <button
-      type="button"
-      onClick={copyResults}
-      disabled={disabled}
-      className="inline-flex min-h-9 items-center justify-center rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 transition hover:border-cyan-700 hover:text-cyan-900 focus:outline-none focus:ring-2 focus:ring-cyan-700/20 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-400"
-    >
-      {copied ? copiedLabel : label}
-    </button>
+    <div className="flex flex-wrap justify-end gap-2">
+      <button
+        type="button"
+        onClick={copyResults}
+        disabled={disabled}
+        className="inline-flex min-h-9 items-center justify-center rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 transition hover:border-cyan-700 hover:text-cyan-900 focus:outline-none focus:ring-2 focus:ring-cyan-700/20 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-400"
+      >
+        {copied ? copiedLabel : label}
+      </button>
+      <button
+        type="button"
+        onClick={exportReport}
+        disabled={disabled}
+        className="inline-flex min-h-9 items-center justify-center rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 transition hover:border-cyan-700 hover:text-cyan-900 focus:outline-none focus:ring-2 focus:ring-cyan-700/20 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-400"
+      >
+        Export report
+      </button>
+    </div>
   );
 }

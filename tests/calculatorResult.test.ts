@@ -3,6 +3,7 @@ import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransfor
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
@@ -23,6 +24,12 @@ describe("calculator result contract", () => {
         type: "W",
         value: -1,
         z0Ohm: 50,
+      }),
+      calculateQuarterWaveTransformer({
+        z0Ohm: 0,
+        rLOhm: 50,
+        fGHz: 1,
+        epsEff: 1,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

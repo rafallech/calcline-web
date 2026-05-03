@@ -1,6 +1,7 @@
 export type CalculatorSlug =
   | "wavelength"
   | "rf-power"
+  | "quarter-wave-transformer"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -47,6 +48,19 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/rf-power.svg",
       alt: "RF power and dB converter icon",
+    },
+  },
+  {
+    slug: "quarter-wave-transformer",
+    title: "Quarter-wave Transformer",
+    shortTitle: "Quarter-wave",
+    sourceScreen: "New calculator",
+    description:
+      "Design an ideal quarter-wave impedance transformer for real source and load resistances.",
+    route: "/calculators/quarter-wave-transformer",
+    icon: {
+      src: "/icons/calculators/quarter-wave-transformer.svg",
+      alt: "Quarter-wave transformer calculator icon",
     },
   },
   {

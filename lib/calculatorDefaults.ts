@@ -16,6 +16,12 @@ export const calculatorDefaults = {
     value: 0,
     z0Ohm: 50,
   },
+  quarterWaveTransformer: {
+    z0Ohm: 50,
+    rLOhm: 100,
+    fGHz: 2.4,
+    epsEff: 1,
+  },
   waveguide: {
     aMm: 22.86,
     bMm: 10.16,

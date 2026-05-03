@@ -4,6 +4,7 @@ import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransfor
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
+import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
 import { calculateRfPower } from "@/lib/calculators/rfPower";
 import { calculateRectangularWaveguide } from "@/lib/calculators/waveguide";
 import { calculateSingleStub } from "@/lib/calculators/singleStub";
@@ -38,6 +39,23 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.vrms).toBeCloseTo(Math.sqrt(0.05), 12);
     expect(result.value?.vpp).toBeCloseTo(2 * Math.sqrt(2) * Math.sqrt(0.05), 12);
     expect(result.value?.irms).toBeCloseTo(Math.sqrt(0.05) / 50, 12);
+  });
+
+  it("keeps Quarter-wave Transformer default result stable", () => {
+    const result = calculateQuarterWaveTransformer(
+      calculatorDefaults.quarterWaveTransformer,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([
+      "Basic quarter-wave transformer model assumes a purely real load resistance.",
+    ]);
+    expect(result.value?.ztOhm).toBeCloseTo(70.7106781187, 10);
+    expect(result.value?.electricalLengthDeg).toBe(90);
+    expect(result.value?.lambda0M).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

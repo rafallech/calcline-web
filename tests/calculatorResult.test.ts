@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
+import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
@@ -39,6 +40,19 @@ describe("calculator result contract", () => {
         s21Format: "magnitude",
         s21Value: 1,
         z0Ohm: 50,
+      }),
+      calculateLinkBudget({
+        transmitPowerDbm: 0,
+        txAntennaGainDbi: 0,
+        rxAntennaGainDbi: 0,
+        frequency: 0,
+        frequencyUnit: "GHz",
+        distance: 1,
+        distanceUnit: "m",
+        txCableLossDb: 0,
+        rxCableLossDb: 0,
+        additionalLossesDb: 0,
+        receiverSensitivityDbm: -100,
       }),
       calculateRectangularWaveguide({
         aMm: 0,

@@ -3,6 +3,7 @@ export type CalculatorSlug =
   | "rf-power"
   | "quarter-wave-transformer"
   | "s-parameters"
+  | "link-budget"
   | "waveguide"
   | "microstrip"
   | "load-impedance"
@@ -75,6 +76,19 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/s-parameters.svg",
       alt: "S-parameter converter calculator icon",
+    },
+  },
+  {
+    slug: "link-budget",
+    title: "Link Budget",
+    shortTitle: "Link Budget",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate EIRP, free-space path loss, received power, and link margin.",
+    route: "/calculators/link-budget",
+    icon: {
+      src: "/icons/calculators/link-budget.svg",
+      alt: "Link budget calculator icon",
     },
   },
   {

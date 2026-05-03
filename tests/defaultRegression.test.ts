@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { calculatorDefaults } from "@/lib/calculatorDefaults";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
+import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
 import { calculateLoadImpedance } from "@/lib/calculators/loadImpedance";
 import { calculateMicrostrip } from "@/lib/calculators/microstrip";
 import { calculateQuarterWaveTransformer } from "@/lib/calculators/quarterWaveTransformer";
@@ -76,6 +77,18 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.s21Db).toBeCloseTo(-3, 12);
     expect(result.value?.transferKind).toBe("insertionLoss");
     expect(result.value?.transferDb).toBeCloseTo(3, 12);
+  });
+
+  it("keeps Link Budget default result stable", () => {
+    const result = calculateLinkBudget(calculatorDefaults.linkBudget);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.eirpDbm).toBeCloseTo(39, 12);
+    expect(result.value?.fsplDb).toBeCloseTo(114.0314081428, 10);
+    expect(result.value?.receivedPowerDbm).toBeCloseTo(-68.0314081428, 10);
+    expect(result.value?.linkMarginDb).toBeCloseTo(21.9685918572, 10);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

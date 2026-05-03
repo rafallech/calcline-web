@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { calculatorDefaults } from "@/lib/calculatorDefaults";
+import { calculateAntennaAperture } from "@/lib/calculators/antennaAperture";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateDipoleMonopole } from "@/lib/calculators/dipoleMonopole";
@@ -354,6 +355,26 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.eachDipoleArmLengthM).toBeCloseTo(0.2373356959, 10);
     expect(result.value?.monopoleLengthM).toBeCloseTo(0.2373356959, 10);
     expect(result.value?.selectedLengthLabel).toBe("total dipole length");
+  });
+
+  it("keeps Antenna Gain and Effective Aperture default result stable", () => {
+    const result = calculateAntennaAperture(
+      calculatorDefaults.antennaAperture,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([]);
+    expect(result.value?.wavelengthM).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.gainLinear).toBeCloseTo(10, 12);
+    expect(result.value?.gainDbi).toBeCloseTo(10, 12);
+    expect(result.value?.effectiveApertureM2).toBeCloseTo(0.0124167821, 10);
+    expect(result.value?.directivityEstimateLinear).toBeCloseTo(12.5, 12);
+    expect(result.value?.directivityEstimateDbi).toBeCloseTo(
+      10.9691001301,
+      10,
+    );
+    expect(result.value?.efficiencyUsed).toBe(0.8);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { calculateAntennaAperture } from "@/lib/calculators/antennaAperture";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateDipoleMonopole } from "@/lib/calculators/dipoleMonopole";
@@ -124,6 +125,12 @@ describe("calculator result contract", () => {
         frequencyMHz: 0,
         velocityFactor: 0.95,
         antennaType: "halfWaveDipole",
+      }),
+      calculateAntennaAperture({
+        mode: "gainDbi",
+        frequencyGHz: 0,
+        gainDbi: 10,
+        efficiency: 0.8,
       }),
       calculateWilkinsonDivider({
         z0Ohm: 0,

@@ -1,3 +1,4 @@
+import type { AntennaApertureInputMode } from "@/lib/calculators/antennaAperture";
 import type { ImpedanceTransformDirection } from "@/lib/calculators/impedanceTransform";
 import type { CoplanarWaveguideMode } from "@/lib/calculators/coplanarWaveguide";
 import type { DipoleMonopoleAntennaType } from "@/lib/calculators/dipoleMonopole";
@@ -115,6 +116,13 @@ export const calculatorDefaults = {
     frequencyMHz: 300,
     velocityFactor: 0.95,
     antennaType: "halfWaveDipole" as DipoleMonopoleAntennaType,
+  },
+  antennaAperture: {
+    mode: "gainDbi" as AntennaApertureInputMode,
+    frequencyGHz: 2.4,
+    gainDbi: 10,
+    effectiveApertureM2: 0.012416782059496912,
+    efficiency: 0.8,
   },
   attenuators: {
     topology: "pi",

@@ -12,6 +12,7 @@ export type CalculatorSlug =
   | "patch-antenna"
   | "horn-antenna"
   | "dipole-monopole"
+  | "antenna-aperture"
   | "attenuators"
   | "wilkinson-divider"
   | "directional-coupler"
@@ -266,6 +267,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/dipole-monopole.svg",
       alt: "Dipole and monopole antenna calculator icon",
+    },
+  },
+  {
+    slug: "antenna-aperture",
+    title: "Antenna Gain and Effective Aperture",
+    shortTitle: "Gain/Aperture",
+    category: "antennas",
+    sourceScreen: "New calculator",
+    description:
+      "Convert antenna gain and effective aperture at frequency, with optional efficiency-based directivity estimate.",
+    route: "/calculators/antenna-aperture",
+    icon: {
+      src: "/icons/calculators/antenna-aperture.svg",
+      alt: "Antenna gain and effective aperture calculator icon",
     },
   },
   {

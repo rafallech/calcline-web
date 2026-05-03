@@ -94,6 +94,11 @@ export const calculatorDefaults = {
     fGHz: 2.4,
     epsEff: 1,
   },
+  directionalCoupler: {
+    z0Ohm: 50,
+    fGHz: 2.4,
+    epsEff: 1,
+  },
   stripline: {
     wMm: 1.2,
     bMm: 3.2,

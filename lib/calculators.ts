@@ -9,6 +9,7 @@ export type CalculatorSlug =
   | "patch-antenna"
   | "attenuators"
   | "wilkinson-divider"
+  | "directional-coupler"
   | "stripline"
   | "coplanar-waveguide"
   | "microstrip-loss"
@@ -218,6 +219,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/wilkinson-divider.svg",
       alt: "Wilkinson power divider calculator icon",
+    },
+  },
+  {
+    slug: "directional-coupler",
+    title: "Directional Coupler",
+    shortTitle: "Directional Coupler",
+    category: "passive-components",
+    sourceScreen: "New calculator",
+    description:
+      "Design an ideal branch-line 90 degree hybrid coupler at the center frequency.",
+    route: "/calculators/directional-coupler",
+    icon: {
+      src: "/icons/calculators/directional-coupler.svg",
+      alt: "Directional coupler calculator icon",
     },
   },
   {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
+import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -78,6 +79,11 @@ describe("calculator result contract", () => {
       calculateRfCascade({
         inputPowerDbm: 0,
         stages: [],
+      }),
+      calculateDirectionalCoupler({
+        z0Ohm: 0,
+        fGHz: 1,
+        epsEff: 1,
       }),
       calculatePatchAntenna({
         fGHz: 0,

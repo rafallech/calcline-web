@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { calculatorDefaults } from "@/lib/calculatorDefaults";
 import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
+import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -218,6 +219,27 @@ describe("default-value calculator regressions", () => {
     );
     expect(result.value?.cascadedIp3?.iip3Dbm).toBeCloseTo(-2.0316296149, 10);
     expect(result.value?.cascadedIp3?.oip3Dbm).toBeCloseTo(29.9683703851, 10);
+  });
+
+  it("keeps Directional Coupler default result stable", () => {
+    const result = calculateDirectionalCoupler(
+      calculatorDefaults.directionalCoupler,
+    );
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([
+      "Ideal branch-line model: no loss, discontinuity, dispersion, or tolerance effects are included.",
+    ]);
+    expect(result.value?.seriesArmImpedanceOhm).toBeCloseTo(
+      35.3553390593,
+      10,
+    );
+    expect(result.value?.branchArmImpedanceOhm).toBeCloseTo(50, 12);
+    expect(result.value?.physicalLengthM).toBeCloseTo(0.031228381, 10);
+    expect(result.value?.lambdaGM).toBeCloseTo(0.1249135242, 10);
+    expect(result.value?.idealSplitDb).toBeCloseTo(-3.0102999566, 10);
+    expect(result.value?.phaseRelationDeg).toBe(90);
   });
 
   it("keeps Patch Antenna default result stable", () => {

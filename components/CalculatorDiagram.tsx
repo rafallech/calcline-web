@@ -433,6 +433,90 @@ export function WilkinsonDividerDiagram() {
   );
 }
 
+export function DirectionalCouplerDiagram() {
+  return (
+    <DiagramFrame title="Branch-line hybrid sketch">
+      <svg
+        viewBox="0 0 720 360"
+        role="img"
+        aria-labelledby="directional-coupler-title"
+        className="h-auto w-full"
+      >
+        <title id="directional-coupler-title">
+          Branch-line 90 degree hybrid coupler
+        </title>
+        <path
+          d="M170 105 H550 V255 H170 Z"
+          fill="none"
+          stroke="#0891b2"
+          strokeWidth="10"
+          strokeLinejoin="round"
+        />
+        <line x1="70" y1="105" x2="170" y2="105" stroke="#0f172a" strokeWidth="6" strokeLinecap="round" />
+        <line x1="550" y1="105" x2="650" y2="105" stroke="#0f172a" strokeWidth="6" strokeLinecap="round" />
+        <line x1="70" y1="255" x2="170" y2="255" stroke="#0f172a" strokeWidth="6" strokeLinecap="round" />
+        <line x1="550" y1="255" x2="650" y2="255" stroke="#0f172a" strokeWidth="6" strokeLinecap="round" />
+        <circle cx="170" cy="105" r="9" fill="#f59e0b" />
+        <circle cx="550" cy="105" r="9" fill="#f59e0b" />
+        <circle cx="170" cy="255" r="9" fill="#f59e0b" />
+        <circle cx="550" cy="255" r="9" fill="#f59e0b" />
+        <text x="95" y="82" className="fill-slate-700 text-[20px]">
+          port 1
+        </text>
+        <text x="575" y="82" className="fill-slate-700 text-[20px]">
+          port 2
+        </text>
+        <text x="95" y="294" className="fill-slate-700 text-[20px]">
+          port 4
+        </text>
+        <text x="575" y="294" className="fill-slate-700 text-[20px]">
+          port 3
+        </text>
+        <text
+          x="360"
+          y="82"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px] font-semibold"
+        >
+          Z0 / sqrt(2), lambda/4
+        </text>
+        <text
+          x="360"
+          y="292"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px] font-semibold"
+        >
+          Z0 / sqrt(2), lambda/4
+        </text>
+        <text
+          x="135"
+          y="185"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px] font-semibold"
+        >
+          Z0
+        </text>
+        <text
+          x="585"
+          y="185"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px] font-semibold"
+        >
+          Z0
+        </text>
+        <text
+          x="360"
+          y="184"
+          textAnchor="middle"
+          className="fill-slate-700 text-[22px]"
+        >
+          3 dB, 90 deg hybrid
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 type ResistorProps = {
   x: number;
   y: number;

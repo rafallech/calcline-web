@@ -13,10 +13,19 @@ export type CalculatorSlug =
   | "single-stub"
   | "l-match";
 
+export type CalculatorCategory =
+  | "transmission-lines"
+  | "matching"
+  | "rf-utilities"
+  | "passive-components"
+  | "antennas"
+  | "system-calculators";
+
 export type CalculatorInfo = {
   slug: CalculatorSlug;
   title: string;
   shortTitle: string;
+  category: CalculatorCategory;
   sourceScreen: string;
   description: string;
   route: string;
@@ -26,11 +35,49 @@ export type CalculatorInfo = {
   };
 };
 
+export const calculatorCategories: {
+  id: CalculatorCategory;
+  label: string;
+  description: string;
+}[] = [
+  {
+    id: "transmission-lines",
+    label: "Transmission Lines",
+    description: "Line, waveguide, wavelength, and impedance transformation tools.",
+  },
+  {
+    id: "matching",
+    label: "Matching",
+    description: "Stub and lumped-element matching calculators.",
+  },
+  {
+    id: "rf-utilities",
+    label: "RF Utilities",
+    description: "Conversions and RF parameter helper tools.",
+  },
+  {
+    id: "passive-components",
+    label: "Passive Components",
+    description: "Ideal passive RF component design aids.",
+  },
+  {
+    id: "antennas",
+    label: "Antennas",
+    description: "Antenna sizing and approximation calculators.",
+  },
+  {
+    id: "system-calculators",
+    label: "System Calculators",
+    description: "End-to-end RF system and link calculations.",
+  },
+];
+
 export const calculators: CalculatorInfo[] = [
   {
     slug: "wavelength",
     title: "Wavelength and Electrical Length",
     shortTitle: "Wavelength",
+    category: "transmission-lines",
     sourceScreen: "New calculator",
     description:
       "Convert frequency, effective permittivity, and physical length into wavelength and electrical length.",
@@ -44,6 +91,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "rf-power",
     title: "RF Power and dB Converter",
     shortTitle: "RF Power",
+    category: "rf-utilities",
     sourceScreen: "New calculator",
     description:
       "Convert RF power between dBm, dBW, watts, milliwatts, voltage, and current.",
@@ -57,6 +105,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "quarter-wave-transformer",
     title: "Quarter-wave Transformer",
     shortTitle: "Quarter-wave",
+    category: "passive-components",
     sourceScreen: "New calculator",
     description:
       "Design an ideal quarter-wave impedance transformer for real source and load resistances.",
@@ -70,6 +119,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "s-parameters",
     title: "S-parameter Converter",
     shortTitle: "S-parameters",
+    category: "rf-utilities",
     sourceScreen: "New calculator",
     description:
       "Convert S11 and S21 into reflection, mismatch, VSWR, return loss, and gain metrics.",
@@ -83,6 +133,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "link-budget",
     title: "Link Budget",
     shortTitle: "Link Budget",
+    category: "system-calculators",
     sourceScreen: "New calculator",
     description:
       "Estimate EIRP, free-space path loss, received power, and link margin.",
@@ -96,6 +147,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "patch-antenna",
     title: "Microstrip Patch Antenna",
     shortTitle: "Patch Antenna",
+    category: "antennas",
     sourceScreen: "New calculator",
     description:
       "Estimate rectangular microstrip patch dimensions from resonant frequency, substrate permittivity, and height.",
@@ -109,6 +161,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "waveguide",
     title: "Rectangular Waveguide",
     shortTitle: "Waveguide",
+    category: "transmission-lines",
     sourceScreen: "Screen_RectWaveguide",
     description:
       "Cutoff frequencies for standard and custom rectangular waveguide modes.",
@@ -122,6 +175,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "microstrip",
     title: "Microstrip Line",
     shortTitle: "Microstrip",
+    category: "transmission-lines",
     sourceScreen: "Screen_Microstrip2",
     description:
       "Analysis and synthesis workflow for microstrip width, impedance, and wavelength.",
@@ -135,6 +189,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "load-impedance",
     title: "Load Impedance Calculation",
     shortTitle: "Load Impedance",
+    category: "transmission-lines",
     sourceScreen: "Screen_Impedance",
     description:
       "Normalized load impedance from SWR and the distance to a wave minimum.",
@@ -148,6 +203,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "impedance-transform",
     title: "Impedance Transformation",
     shortTitle: "Transformation",
+    category: "transmission-lines",
     sourceScreen: "Screen_Impedance2",
     description:
       "Transmission-line impedance transformation toward the generator or load.",
@@ -161,6 +217,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "vswr",
     title: "VSWR Calculation",
     shortTitle: "VSWR",
+    category: "rf-utilities",
     sourceScreen: "Screen_VSWR",
     description:
       "Conversions between VSWR, reflection coefficient, impedance, and admittance.",
@@ -174,6 +231,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "single-stub",
     title: "Single Stub Matching Circuit",
     shortTitle: "Single Stub",
+    category: "matching",
     sourceScreen: "Screen_Matching",
     description:
       "Series and shunt single-stub matching with open or shorted stubs.",
@@ -187,6 +245,7 @@ export const calculators: CalculatorInfo[] = [
     slug: "l-match",
     title: "L-section Matching Network",
     shortTitle: "L-section",
+    category: "matching",
     sourceScreen: "Screen_Matching2",
     description:
       "L-section matching network solutions with ideal element values.",

@@ -3,6 +3,7 @@ import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
 import { calculateFilterPrototype } from "@/lib/calculators/filterPrototype";
+import { calculateHornAntenna } from "@/lib/calculators/hornAntenna";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -111,6 +112,12 @@ describe("calculator result contract", () => {
         fGHz: 0,
         epsR: 4.4,
         hMm: 1.6,
+      }),
+      calculateHornAntenna({
+        frequencyGHz: 0,
+        apertureWidthMm: 100,
+        apertureHeightMm: 50,
+        apertureEfficiency: 0.6,
       }),
       calculateWilkinsonDivider({
         z0Ohm: 0,

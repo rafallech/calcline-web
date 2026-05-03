@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Horn antenna calculator icon</title>
+  <desc id="desc">A rectangular horn antenna aperture with outgoing radiation lines</desc>
+  <rect width="96" height="96" rx="18" fill="#ecfeff"/>
+  <path d="M18 38h13v20H18z" fill="#64748b" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M31 37 62 22v52L31 59Z" fill="#bae6fd" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="62" y="22" width="16" height="52" rx="4" fill="#f8fafc" stroke="#0891b2" stroke-width="3"/>
+  <path d="M68 33c7 5 7 25 0 30" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M81 31c6 7 7 27 0 34M87 24c9 11 10 38 0 49" fill="none" stroke="#0891b2" stroke-width="3" stroke-linecap="round"/>
+</svg>

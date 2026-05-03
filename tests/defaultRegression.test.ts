@@ -4,6 +4,7 @@ import { calculateAttenuator } from "@/lib/calculators/attenuators";
 import { calculateCoplanarWaveguide } from "@/lib/calculators/coplanarWaveguide";
 import { calculateDirectionalCoupler } from "@/lib/calculators/directionalCoupler";
 import { calculateFilterPrototype } from "@/lib/calculators/filterPrototype";
+import { calculateHornAntenna } from "@/lib/calculators/hornAntenna";
 import { calculateImpedanceTransform } from "@/lib/calculators/impedanceTransform";
 import { calculateLMatch } from "@/lib/calculators/lMatch";
 import { calculateLinkBudget } from "@/lib/calculators/linkBudget";
@@ -319,6 +320,23 @@ describe("default-value calculator regressions", () => {
     expect(result.value?.deltaLMm).toBeCloseTo(0.7388121658, 10);
     expect(result.value?.leffMm).toBeCloseTo(30.8992174161, 10);
     expect(result.value?.lMm).toBeCloseTo(29.4215930844, 10);
+  });
+
+  it("keeps Horn Antenna default result stable", () => {
+    const result = calculateHornAntenna(calculatorDefaults.hornAntenna);
+
+    expect(result.ok).toBe(true);
+    expect(result.errors).toEqual([]);
+    expect(result.warnings).toEqual([
+      "Horn antenna gain and beamwidth are aperture approximations; verify final designs with EM simulation or measurement.",
+    ]);
+    expect(result.value?.wavelengthM).toBeCloseTo(0.0299792458, 12);
+    expect(result.value?.apertureAreaM2).toBeCloseTo(0.005, 12);
+    expect(result.value?.directivityLinear).toBeCloseTo(69.9098648423, 10);
+    expect(result.value?.gainLinear).toBeCloseTo(41.9459189054, 10);
+    expect(result.value?.gainDbi).toBeCloseTo(16.2268971289, 10);
+    expect(result.value?.beamwidthEPlaneDeg).toBeCloseTo(33.576755296, 10);
+    expect(result.value?.beamwidthHPlaneDeg).toBeCloseTo(20.086094686, 10);
   });
 
   it("keeps Rectangular Waveguide default WR-90 results stable", () => {

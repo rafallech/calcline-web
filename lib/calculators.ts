@@ -10,6 +10,7 @@ export type CalculatorSlug =
   | "rf-cascade"
   | "filter-prototype"
   | "patch-antenna"
+  | "horn-antenna"
   | "attenuators"
   | "wilkinson-divider"
   | "directional-coupler"
@@ -236,6 +237,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/patch-antenna.svg",
       alt: "Microstrip patch antenna calculator icon",
+    },
+  },
+  {
+    slug: "horn-antenna",
+    title: "Horn Antenna",
+    shortTitle: "Horn Antenna",
+    category: "antennas",
+    sourceScreen: "New calculator",
+    description:
+      "Estimate rectangular horn aperture gain, directivity, and beamwidth from aperture size.",
+    route: "/calculators/horn-antenna",
+    icon: {
+      src: "/icons/calculators/horn-antenna.svg",
+      alt: "Horn antenna calculator icon",
     },
   },
   {

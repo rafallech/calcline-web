@@ -288,6 +288,82 @@ export function PatchAntennaDiagram() {
   );
 }
 
+export function HornAntennaDiagram() {
+  return (
+    <DiagramFrame title="Horn antenna sketch">
+      <svg
+        viewBox="0 0 720 320"
+        role="img"
+        aria-labelledby="horn-antenna-title"
+        className="h-auto w-full"
+      >
+        <title id="horn-antenna-title">
+          Rectangular horn antenna aperture dimensions
+        </title>
+        <path
+          d="M135 130 L440 55 L440 265 L135 190 Z"
+          fill="#dbeafe"
+          stroke="#334155"
+          strokeWidth="4"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M105 128 L135 130 L135 190 L105 192 Z"
+          fill="#64748b"
+          stroke="#334155"
+          strokeWidth="4"
+          strokeLinejoin="round"
+        />
+        <rect
+          x="440"
+          y="55"
+          width="150"
+          height="210"
+          rx="8"
+          fill="#f8fafc"
+          stroke="#0891b2"
+          strokeWidth="5"
+        />
+        <path
+          d="M470 80 C540 95 560 225 470 240"
+          fill="none"
+          stroke="#f59e0b"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <line x1="440" y1="35" x2="590" y2="35" stroke="#0891b2" strokeWidth="3" />
+        <line x1="440" y1="25" x2="440" y2="45" stroke="#0891b2" strokeWidth="3" />
+        <line x1="590" y1="25" x2="590" y2="45" stroke="#0891b2" strokeWidth="3" />
+        <text
+          x="515"
+          y="24"
+          textAnchor="middle"
+          className="fill-slate-700 text-[22px] font-semibold"
+        >
+          W
+        </text>
+        <line x1="620" y1="55" x2="620" y2="265" stroke="#0891b2" strokeWidth="3" />
+        <line x1="610" y1="55" x2="630" y2="55" stroke="#0891b2" strokeWidth="3" />
+        <line x1="610" y1="265" x2="630" y2="265" stroke="#0891b2" strokeWidth="3" />
+        <text x="638" y="168" className="fill-slate-700 text-[22px] font-semibold">
+          H
+        </text>
+        <text x="105" y="112" className="fill-slate-700 text-[20px]">
+          feed
+        </text>
+        <text
+          x="515"
+          y="298"
+          textAnchor="middle"
+          className="fill-slate-700 text-[20px]"
+        >
+          aperture area A = W H
+        </text>
+      </svg>
+    </DiagramFrame>
+  );
+}
+
 type AttenuatorDiagramProps = {
   topology: "pi" | "t";
 };

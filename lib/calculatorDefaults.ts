@@ -104,6 +104,12 @@ export const calculatorDefaults = {
     epsR: 4.4,
     hMm: 1.6,
   },
+  hornAntenna: {
+    frequencyGHz: 10,
+    apertureWidthMm: 100,
+    apertureHeightMm: 50,
+    apertureEfficiency: 0.6,
+  },
   attenuators: {
     topology: "pi",
     z0Ohm: 50,

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Yagi-Uda antenna designer calculator icon</title>
+  <rect width="64" height="64" rx="12" fill="#ecfeff"/>
+  <path d="M9 34h46" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 14v40M24 19v30M34 23v22M43 25v18M51 27v14" stroke="#0891b2" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="24" cy="34" r="3" fill="#0f172a"/>
+  <path d="M24 34l-6 8M24 34l6 8" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+</svg>

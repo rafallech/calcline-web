@@ -8,6 +8,11 @@ import type { MicrostripInput } from "@/lib/calculators/microstrip";
 import type { PiTMatchingNetwork } from "@/lib/calculators/piTMatching";
 import type { ReceiverNoiseBandwidthUnit } from "@/lib/calculators/receiverNoise";
 import type { SingleStubConfiguration } from "@/lib/calculators/singleStub";
+import type {
+  YagiBoomType,
+  YagiDrivenElementType,
+  YagiFrequencyUnit,
+} from "@/lib/calculators/yagiUda";
 
 export const calculatorDefaults = {
   wavelength: {
@@ -111,6 +116,16 @@ export const calculatorDefaults = {
     apertureWidthMm: 100,
     apertureHeightMm: 50,
     apertureEfficiency: 0.6,
+  },
+  yagiUda: {
+    frequency: 432,
+    frequencyUnit: "MHz" as YagiFrequencyUnit,
+    numberOfElements: 10,
+    elementDiameterMm: 4,
+    boomType: "dielectric" as YagiBoomType,
+    boomDiameterMm: 0,
+    drivenElementType: "straightDipole" as YagiDrivenElementType,
+    outputUnit: "mm",
   },
   dipoleMonopole: {
     frequencyMHz: 300,

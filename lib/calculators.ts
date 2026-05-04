@@ -11,6 +11,7 @@ export type CalculatorSlug =
   | "filter-prototype"
   | "patch-antenna"
   | "horn-antenna"
+  | "yagi-uda"
   | "dipole-monopole"
   | "antenna-aperture"
   | "attenuators"
@@ -253,6 +254,20 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/horn-antenna.svg",
       alt: "Horn antenna calculator icon",
+    },
+  },
+  {
+    slug: "yagi-uda",
+    title: "Yagi-Uda Antenna Designer",
+    shortTitle: "Yagi-Uda",
+    category: "antennas",
+    sourceScreen: "New calculator",
+    description:
+      "Generate DL6WU-inspired long-boom Yagi starting dimensions with element table and warnings.",
+    route: "/calculators/yagi-uda",
+    icon: {
+      src: "/icons/calculators/yagi-uda.svg",
+      alt: "Yagi-Uda antenna designer calculator icon",
     },
   },
   {

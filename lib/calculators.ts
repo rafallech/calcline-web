@@ -1,5 +1,6 @@
 export type CalculatorSlug =
   | "wavelength"
+  | "interactive-smith-chart"
   | "rf-power"
   | "quarter-wave-transformer"
   | "multisection-transformer"
@@ -43,6 +44,7 @@ export type CalculatorInfo = {
   category: CalculatorCategory;
   sourceScreen: string;
   description: string;
+  searchKeywords?: string[];
   route: string;
   icon: {
     src: string;
@@ -100,6 +102,27 @@ export const calculators: CalculatorInfo[] = [
     icon: {
       src: "/icons/calculators/wavelength.svg",
       alt: "Wavelength and electrical length calculator icon",
+    },
+  },
+  {
+    slug: "interactive-smith-chart",
+    title: "Interactive Smith Chart",
+    shortTitle: "Smith Chart",
+    category: "rf-utilities",
+    sourceScreen: "New calculator",
+    description:
+      "Click a point on the Smith chart to inspect normalized impedance, admittance, reflection coefficient and SWR.",
+    searchKeywords: [
+      "Smith chart",
+      "impedance",
+      "reflection coefficient",
+      "SWR",
+      "Gamma",
+    ],
+    route: "/calculators/interactive-smith-chart",
+    icon: {
+      src: "/icons/calculators/interactive-smith-chart.svg",
+      alt: "Interactive Smith chart calculator icon",
     },
   },
   {

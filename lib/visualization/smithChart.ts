@@ -1,6 +1,7 @@
 import {
   abs as complexAbs,
   add,
+  argDeg,
   div,
   fromPolar,
   isFiniteComplex,
@@ -57,6 +58,35 @@ export type SmithGridData = {
   labels: SmithGridLabel[];
 };
 
+export type SelectedSmithPointMode = "normalized" | "withZ0";
+
+export type SelectedSmithPoint = {
+  gamma: Complex;
+  magGamma: number;
+  angleGammaDeg: number;
+  normalizedImpedance?: Complex;
+  normalizedAdmittance?: Complex;
+  swr?: number;
+  returnLossDb?: number;
+  impedanceOhm?: Complex;
+  admittanceS?: Complex;
+  warnings: string[];
+};
+
+export type FormattedSelectedSmithPoint = {
+  gamma: string;
+  magGamma: string;
+  angleGammaDeg: string;
+  normalizedImpedance?: string;
+  normalizedAdmittance?: string;
+  swr?: string;
+  returnLossDb: string;
+  impedanceOhm?: string;
+  admittanceS?: string;
+  warnings: string[];
+  copyText: string;
+};
+
 const ONE: Complex = { re: 1, im: 0 };
 const DEFAULT_VIEWPORT: SmithChartViewport = {
   centerX: 0,
@@ -70,6 +100,7 @@ const DEFAULT_MINOR_REACTANCE_VALUES = [0.1, 0.3, 0.4, 0.7, 1.5, 3, 10];
 const DEFAULT_SAMPLES = 361;
 const MIN_SAMPLES = 2;
 const EPSILON = 1e-12;
+const PASSIVE_BOUNDARY_WARNING_MAGNITUDE = 0.95;
 
 export function gammaFromNormalizedImpedance(z: Complex): Complex {
   return div(sub(z, ONE), add(z, ONE));
@@ -95,6 +126,146 @@ export function normalizedAdmittanceFromGamma(gamma: Complex): Complex {
   return normalizedAdmittanceFromImpedance(
     normalizedImpedanceFromGamma(gamma),
   );
+}
+
+export function svgPointToGamma(
+  point: SvgPoint,
+  viewport: SmithChartViewport = DEFAULT_VIEWPORT,
+): Complex {
+  return gammaFromSvgPoint(point, viewport);
+}
+
+export function isPointInsideSmithChart(
+  point: SvgPoint,
+  viewport: SmithChartViewport = DEFAULT_VIEWPORT,
+): boolean {
+  if (
+    !Number.isFinite(point.x) ||
+    !Number.isFinite(point.y) ||
+    !Number.isFinite(viewport.centerX) ||
+    !Number.isFinite(viewport.centerY) ||
+    !Number.isFinite(viewport.radius) ||
+    viewport.radius <= 0
+  ) {
+    return false;
+  }
+
+  return (
+    Math.hypot(point.x - viewport.centerX, point.y - viewport.centerY) <
+    viewport.radius
+  );
+}
+
+export function gammaToNormalizedImpedance(gamma: Complex): Complex | null {
+  if (!isFiniteComplex(gamma) || complexAbs(gamma) >= 1) {
+    return null;
+  }
+
+  return normalizedImpedanceFromGamma(gamma);
+}
+
+export function gammaToNormalizedAdmittance(gamma: Complex): Complex | null {
+  const z = gammaToNormalizedImpedance(gamma);
+
+  return z ? normalizedAdmittanceFromImpedance(z) : null;
+}
+
+export function gammaToSWR(gamma: Complex): number | null {
+  if (!isFiniteComplex(gamma)) {
+    return null;
+  }
+
+  const magGamma = complexAbs(gamma);
+
+  if (magGamma >= 1) {
+    return null;
+  }
+
+  return (1 + magGamma) / (1 - magGamma);
+}
+
+export function gammaToReturnLossDb(gamma: Complex): number {
+  const magGamma = complexAbs(gamma);
+
+  if (magGamma === 0) {
+    return Infinity;
+  }
+
+  return -20 * Math.log10(magGamma);
+}
+
+export function formatSelectedSmithPoint({
+  gamma,
+  z0Ohm,
+  mode = "normalized",
+  digits = 4,
+}: {
+  gamma: Complex;
+  z0Ohm?: number;
+  mode?: SelectedSmithPointMode;
+  digits?: number;
+}): FormattedSelectedSmithPoint {
+  const point = calculateSelectedSmithPoint(gamma, z0Ohm, mode);
+  const rows = [
+    `Gamma = ${formatComplexForSmith(point.gamma, digits)}`,
+    `|Gamma| = ${formatScalarForSmith(point.magGamma, digits)}`,
+    `angle(Gamma) = ${formatScalarForSmith(point.angleGammaDeg, digits)} deg`,
+  ];
+
+  if (point.normalizedImpedance) {
+    rows.push(
+      `z = ${formatComplexForSmith(point.normalizedImpedance, digits)}`,
+    );
+  }
+
+  if (point.normalizedAdmittance) {
+    rows.push(
+      `y = ${formatComplexForSmith(point.normalizedAdmittance, digits)}`,
+    );
+  }
+
+  if (point.swr !== undefined) {
+    rows.push(`SWR = ${formatScalarForSmith(point.swr, digits)}`);
+  }
+
+  rows.push(`Return loss = ${formatReturnLoss(point.returnLossDb, digits)}`);
+
+  if (point.impedanceOhm) {
+    rows.push(`Z = ${formatComplexForSmith(point.impedanceOhm, digits)} Ohm`);
+  }
+
+  if (point.admittanceS) {
+    rows.push(`Y = ${formatComplexForSmith(point.admittanceS, digits)} S`);
+  }
+
+  for (const warning of point.warnings) {
+    rows.push(`Warning: ${warning}`);
+  }
+
+  return {
+    gamma: formatComplexForSmith(point.gamma, digits),
+    magGamma: formatScalarForSmith(point.magGamma, digits),
+    angleGammaDeg: formatScalarForSmith(point.angleGammaDeg, digits),
+    normalizedImpedance: point.normalizedImpedance
+      ? formatComplexForSmith(point.normalizedImpedance, digits)
+      : undefined,
+    normalizedAdmittance: point.normalizedAdmittance
+      ? formatComplexForSmith(point.normalizedAdmittance, digits)
+      : undefined,
+    swr:
+      point.swr === undefined
+        ? undefined
+        : formatScalarForSmith(point.swr, digits),
+    returnLossDb: formatReturnLoss(point.returnLossDb, digits),
+    impedanceOhm: point.impedanceOhm
+      ? formatComplexForSmith(point.impedanceOhm, digits)
+      : undefined,
+    admittanceS: point.admittanceS
+      ? formatComplexForSmith(point.admittanceS, digits)
+      : undefined,
+    warnings: point.warnings,
+    copyText: rows.join("\n"),
+  };
 }
 
 export function isDrawableGamma(gamma: Complex): boolean {
@@ -239,6 +410,88 @@ function rotateGamma(gamma: Complex, angleDeg: number): Complex {
     re: gamma.re * cos - gamma.im * sin,
     im: gamma.re * sin + gamma.im * cos,
   };
+}
+
+function calculateSelectedSmithPoint(
+  gamma: Complex,
+  z0Ohm?: number,
+  mode: SelectedSmithPointMode = "normalized",
+): SelectedSmithPoint {
+  const magGamma = complexAbs(gamma);
+  const warnings: string[] = [];
+  const point: SelectedSmithPoint = {
+    gamma,
+    magGamma,
+    angleGammaDeg: argDeg(gamma),
+    warnings,
+  };
+
+  if (!isFiniteComplex(gamma) || magGamma >= 1) {
+    warnings.push(
+      "Selected point is on or outside the passive Smith chart boundary.",
+    );
+    return point;
+  }
+
+  if (magGamma > PASSIVE_BOUNDARY_WARNING_MAGNITUDE) {
+    warnings.push("Point is close to the chart boundary. SWR is very high.");
+  }
+
+  const z = normalizedImpedanceFromGamma(gamma);
+  const y = normalizedAdmittanceFromImpedance(z);
+
+  point.normalizedImpedance = z;
+  point.normalizedAdmittance = y;
+  point.swr = (1 + magGamma) / (1 - magGamma);
+  point.returnLossDb = gammaToReturnLossDb(gamma);
+
+  if (mode === "withZ0" && z0Ohm !== undefined && z0Ohm > 0) {
+    point.impedanceOhm = scaleComplex(z, z0Ohm);
+    point.admittanceS = scaleComplex(y, 1 / z0Ohm);
+  }
+
+  return point;
+}
+
+function scaleComplex(value: Complex, scalar: number): Complex {
+  return {
+    re: value.re * scalar,
+    im: value.im * scalar,
+  };
+}
+
+function formatComplexForSmith(value: Complex, digits: number): string {
+  const re = formatScalarForSmith(normalizeZero(value.re), digits);
+  const imAbs = formatScalarForSmith(Math.abs(normalizeZero(value.im)), digits);
+  const sign = value.im < 0 ? "-" : "+";
+
+  return `${re} ${sign} j${imAbs}`;
+}
+
+function formatScalarForSmith(value: number, digits: number): string {
+  if (!Number.isFinite(value)) {
+    return String(value);
+  }
+
+  const fixed = normalizeZero(value).toFixed(digits);
+
+  return fixed.replace(/\.?0+$/u, "");
+}
+
+function formatReturnLoss(value: number | undefined, digits: number): string {
+  if (value === undefined) {
+    return "not available";
+  }
+
+  if (value === Infinity) {
+    return "infinity (ideal match)";
+  }
+
+  return `${formatScalarForSmith(value, digits)} dB`;
+}
+
+function normalizeZero(value: number): number {
+  return Math.abs(value) < EPSILON ? 0 : value;
 }
 
 function makeOuterCircleCurve(

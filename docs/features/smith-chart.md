@@ -257,3 +257,68 @@ npm test -- tests/vswr.test.ts tests/loadImpedance.test.ts tests/impedanceTransf
 ```
 
 Jeżeli zmieniany będzie komponent UI Smith Chart, dodać test smoke albo test dostępności sprawdzający, że kalkulatory nadal renderują wyniki bez błędów.
+
+## Interactive Smith Chart subapplication
+
+Interactive Smith Chart jest osobną podaplikacją dostępną pod trasą:
+
+```text
+/calculators/interactive-smith-chart
+```
+
+Nie zmienia zachowania wykresów Smitha w istniejących kalkulatorach:
+
+- VSWR Calculation,
+- Load Impedance Calculation,
+- Impedance Transformation,
+- Single Stub Matching Circuit.
+
+Podaplikacja służy do ręcznego wskazania punktu na wykresie Smitha i odczytu parametrów:
+
+- współczynnika odbicia `Gamma = Re + jIm`,
+- modułu `|Gamma|`,
+- kąta `angle(Gamma)`,
+- znormalizowanej impedancji `z = r + jx`,
+- znormalizowanej admitancji `y = g + jb`,
+- `SWR`,
+- return loss w dB,
+- opcjonalnie impedancji `Z = R + jX` w omach i admitancji `Y = G + jB` w siemensach po podaniu `Z0`.
+
+Kliknięcie lub tapnięcie wewnątrz zewnętrznego okręgu Smitha jest mapowane na współczynnik odbicia:
+
+```text
+gammaRe = (x - centerX) / radius
+gammaIm = -(y - centerY) / radius
+```
+
+Punkty poza zewnętrznym okręgiem są ignorowane przez logikę wyboru i mogą wyświetlać delikatny komunikat w UI. Dla `|Gamma| < 1` obliczenia są:
+
+```text
+z = (1 + Gamma) / (1 - Gamma)
+y = 1 / z
+SWR = (1 + |Gamma|) / (1 - |Gamma|)
+returnLossDb = -20 * log10(|Gamma|)
+angleGammaDeg = atan2(Im(Gamma), Re(Gamma))
+```
+
+Dla `Gamma = 0` wynik jest interpretowany jako idealne dopasowanie:
+
+```text
+z = 1 + j0
+y = 1 + j0
+SWR = 1
+return loss = infinity
+```
+
+Dla `|Gamma| >= 1` podaplikacja nie wyznacza impedancji ani admitancji i pokazuje komunikat:
+
+```text
+Selected point is on or outside the passive Smith chart boundary.
+```
+
+Tryby odczytu:
+
+- `Normalized only` pokazuje tylko wartości znormalizowane.
+- `With Z0` dodatkowo skaluje `z` do `Z = z * Z0` oraz `y` do `Y = y / Z0`.
+
+Matematyka interaktywnego odczytu jest umieszczona w `lib/visualization/smithChart.ts`, a interaktywny komponent UI w `components/InteractiveSmithChart.tsx`. Ten komponent jest używany tylko przez nową trasę, więc standardowy `components/SmithChart.tsx` pozostaje komponentem prezentacyjnym dla istniejących kalkulatorów.

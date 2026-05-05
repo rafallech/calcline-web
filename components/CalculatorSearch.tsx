@@ -32,6 +32,7 @@ export function CalculatorSearch({ calculators }: CalculatorSearchProps) {
             calculator.title,
             calculator.shortTitle,
             calculator.description,
+            ...(calculator.searchKeywords ?? []),
             category?.label ?? "",
           ]
             .join(" ")

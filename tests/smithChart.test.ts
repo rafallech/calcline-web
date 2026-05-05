@@ -2,17 +2,24 @@ import { describe, expect, it } from "vitest";
 import { abs, type Complex } from "@/lib/math/complex";
 import {
   chartPointFromGamma,
+  formatSelectedSmithPoint,
   gammaFromChartPoint,
   gammaFromNormalizedAdmittance,
   gammaFromNormalizedImpedance,
   gammaFromSvgPoint,
+  gammaToNormalizedAdmittance,
+  gammaToNormalizedImpedance,
+  gammaToReturnLossDb,
+  gammaToSWR,
   generateSmithGrid,
   isDrawableGamma,
+  isPointInsideSmithChart,
   normalizedAdmittanceFromGamma,
   normalizedImpedanceFromAdmittance,
   normalizedImpedanceFromGamma,
   sampleConstantGammaCircle,
   sampleTransmissionLineTrace,
+  svgPointToGamma,
   svgPointFromGamma,
 } from "@/lib/visualization/smithChart";
 
@@ -82,6 +89,88 @@ describe("Smith chart coordinates", () => {
     expect(point.x).toBeCloseTo(120, 12);
     expect(point.y).toBeCloseTo(70, 12);
     expectComplexCloseTo(gammaFromSvgPoint(point, viewport), gamma);
+    expectComplexCloseTo(svgPointToGamma(point, viewport), gamma);
+  });
+
+  it("rejects points outside the Smith chart circle", () => {
+    const viewport = {
+      centerX: 100,
+      centerY: 80,
+      radius: 50,
+    };
+
+    expect(isPointInsideSmithChart({ x: 120, y: 70 }, viewport)).toBe(true);
+    expect(isPointInsideSmithChart({ x: 151, y: 80 }, viewport)).toBe(false);
+  });
+});
+
+describe("Interactive Smith chart point calculations", () => {
+  it("maps Gamma = 0 to z = 1 + j0 and SWR = 1", () => {
+    const gamma = { re: 0, im: 0 };
+
+    expectComplexCloseTo(gammaToNormalizedImpedance(gamma) ?? { re: NaN, im: NaN }, {
+      re: 1,
+      im: 0,
+    });
+    expectComplexCloseTo(gammaToNormalizedAdmittance(gamma) ?? { re: NaN, im: NaN }, {
+      re: 1,
+      im: 0,
+    });
+    expect(gammaToSWR(gamma)).toBe(1);
+    expect(gammaToReturnLossDb(gamma)).toBe(Infinity);
+
+    const formatted = formatSelectedSmithPoint({ gamma });
+
+    expect(formatted.normalizedImpedance).toBe("1 + j0");
+    expect(formatted.swr).toBe("1");
+    expect(formatted.returnLossDb).toBe("infinity (ideal match)");
+  });
+
+  it("calculates a positive SWR for Gamma = 0.5 + j0", () => {
+    const gamma = { re: 0.5, im: 0 };
+
+    expect(gammaToSWR(gamma)).toBeCloseTo(3, 12);
+    expect(gammaToReturnLossDb(gamma)).toBeCloseTo(6.020599913, 9);
+    expectComplexCloseTo(gammaToNormalizedImpedance(gamma) ?? { re: NaN, im: NaN }, {
+      re: 3,
+      im: 0,
+    });
+  });
+
+  it("warns and omits impedance at the passive boundary", () => {
+    const formatted = formatSelectedSmithPoint({
+      gamma: { re: 1, im: 0 },
+    });
+
+    expect(gammaToNormalizedImpedance({ re: 1, im: 0 })).toBeNull();
+    expect(gammaToSWR({ re: 1, im: 0 })).toBeNull();
+    expect(formatted.normalizedImpedance).toBeUndefined();
+    expect(formatted.warnings).toContain(
+      "Selected point is on or outside the passive Smith chart boundary.",
+    );
+  });
+
+  it("warns when |Gamma| is greater than 0.95", () => {
+    const formatted = formatSelectedSmithPoint({
+      gamma: { re: 0.951, im: 0 },
+    });
+
+    expect(formatted.normalizedImpedance).toBeDefined();
+    expect(formatted.warnings).toContain(
+      "Point is close to the chart boundary. SWR is very high.",
+    );
+  });
+
+  it("converts normalized impedance to Z when Z0 = 50 Ohm", () => {
+    const formatted = formatSelectedSmithPoint({
+      gamma: { re: 0.5, im: 0 },
+      mode: "withZ0",
+      z0Ohm: 50,
+    });
+
+    expect(formatted.normalizedImpedance).toBe("3 + j0");
+    expect(formatted.impedanceOhm).toBe("150 + j0");
+    expect(formatted.admittanceS).toBe("0.0067 + j0");
   });
 });
 
